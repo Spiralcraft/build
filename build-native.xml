@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+Copyright (c) 1998,2009 Michael Toth
+Spiralcraft Inc., All Rights Reserved
+
+This package is part of the Spiralcraft project and is licensed under
+a multiple-license framework.
+
+You may not use this file except in compliance with the terms found in the
+SPIRALCRAFT-LICENSE.txt file at the top of this distribution, or available
+at http://www.spiralcraft.org/licensing/SPIRALCRAFT-LICENSE.txt.
+
+Unless otherwise agreed to in writing, this software is distributed on an
+"AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+
+-->
+<project name="build-native"
+  xmlns:ivy="antlib:org.apache.ivy.ant"
+  >
+  
+  <property name="native-bin-gui.name"  value="${organization}-${module}-gui"/>
+  <property name="native-bin-gui.splash"  
+    value="${common-build.dir}/resources/spiralcraft/Spiralcraft Logo.captioned.256w.rgb.bmp"
+  />
+  <property name="native-bin.icon"  
+    value="${common-build.dir}/resources/spiralcraft/favicon.ico"
+  />
+  <property name="native-bin-console.name"  value="${organization}-${module}"/>
+
+  <target name="native"  depends="native-console,native-gui"/>
+        
+  <target name="launch4j-error">
+    <echo>Property "launch4j.dir" (${launch4j.dir}) 
+        does not point to a launch4j install
+    </echo>
+  </target>
+      
+  <target name="native-gui" depends="native-gui-windows,native-gui-mac"/>
+    
+  <target name="native-gui-windows" if="isWindows">
+    <echo>Native Windows gui wrapper</echo>
+    <taskdef name="launch4j"
+      onerror="report"
+      classname="net.sf.launch4j.ant.Launch4jTask"
+      classpath="${common-build.dir}/zip/launch4j/launch4j.jar:${common-build.dir}/zip/launch4j/lib/xstream.jar"
+    />        
+    <launch4j>
+      <config
+        headerType="gui"
+        outfile="lib/${native-bin-gui.name}.exe"
+        jarPath="spiralcraft.jar"
+        icon="${native-bin.icon}"
+        dontWrapJar="true"
+        >
+        <splash
+          file="${native-bin-gui.splash}"
+        />
+        <jre
+          minVersion="1.6.0"
+          jdkPreference="preferJre"
+          >
+        </jre>
+      </config>
+    </launch4j>
+  </target>
+
+  <target name="native-gui-mac" if="isMac" >
+    <echo>Native Mac gui wrapper</echo>
+    <taskdef name="launch4j"
+      onerror="report"
+      classname="net.sf.launch4j.ant.Launch4jTask"
+      classpath="${common-build.dir}/zip/launch4j/launch4j.jar:${common-build.dir}/zip/launch4j/lib/xstream.jar"
+    />  
+    <taskdef name="jarbundler" 
+      classname="net.sourceforge.jarbundler.JarBundler"
+      classpath="../../depends/sourceforge/jarbundler/2.2.0/jarbundler.jar"
+    />    
+      
+    <jarbundler
+      dir="."
+      name="${native-bin-gui.name}"
+      mainclass="spiralcraft.main.Spiralcraft"
+      jar="lib/spiralcraft.jar"
+    />
+      
+  </target>
+
+  <target name="native-console" depends="native-console-windows,native-console-mac"/>
+ 
+  <target name="native-console-windows" if="isWindows">
+    <echo>Native Windows console wrapper</echo>
+    <taskdef name="launch4j"
+      onerror="report"
+      classname="net.sf.launch4j.ant.Launch4jTask"
+      classpath="${common-build.dir}/zip/launch4j/launch4j.jar:${common-build.dir}/zip/launch4j/lib/xstream.jar"
+    />  
+    <launch4j>
+      <config
+        headerType="console"
+        outfile="lib/${native-bin-console.name}.exe"
+        jarPath="../lib/spiralcraft.jar"
+        icon="${native-bin.icon}"
+        dontWrapJar="true"
+        >
+        <!-- 
+        <classPath mainClass="spiralcraft.main.Spiralcraft">
+          <cp>./lib/spiralcraft.jar</cp>
+          <cp>./lib/spiralcraft-core.jar</cp>
+          <cp>./lib/spiralcraft-launcher.jar</cp>
+        </classPath>
+        -->
+        
+        <jre
+          minVersion="1.6.0"
+          jdkPreference="preferJre"
+          >
+          <opt>-Dspiralcraft.home="%EXEDIR%\\.."</opt>
+          <opt>-Dspiralcraft.launcher.default.env="class:/spiralcraft/launcher/builtins/help"</opt>
+        </jre>
+      </config>
+    </launch4j>
+  </target>
+
+  <target name="native-console-mac" if="isMac">
+    <echo>Native Mac console wrapper</echo>
+    <taskdef name="launch4j"
+      onerror="report"
+      classname="net.sf.launch4j.ant.Launch4jTask"
+      classpath="${common-build.dir}/zip/launch4j/launch4j.jar:${common-build.dir}/zip/launch4j/lib/xstream.jar"
+    />   	
+    <launch4j>
+      <config
+        headerType="console"
+        outfile="lib/${native-bin-console.name}"
+        jarPath="../lib/spiralcraft.jar"
+        icon="${native-bin.icon}"
+        dontWrapJar="true"
+        >
+        <!-- 
+        <classPath mainClass="spiralcraft.main.Spiralcraft">
+          <cp>./lib/spiralcraft.jar</cp>
+          <cp>./lib/spiralcraft-core.jar</cp>
+          <cp>./lib/spiralcraft-launcher.jar</cp>
+        </classPath>
+        -->
+          
+        <jre
+          minVersion="1.6.0"
+          jdkPreference="preferJre"
+          >
+          <opt>-Dspiralcraft.home="%EXEDIR%\\.."</opt>
+          <opt>-Dspiralcraft.launcher.default.env="class:/spiralcraft/launcher/builtins/help"</opt>
+        </jre>
+      </config>
+    </launch4j>
+  </target>
+</project>

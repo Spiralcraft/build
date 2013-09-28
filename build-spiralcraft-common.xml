@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+Copyright (c) 1998,2009 Michael Toth
+Spiralcraft Inc., All Rights Reserved
+
+This package is part of the Spiralcraft project and is licensed under
+a multiple-license framework.
+
+You may not use this file except in compliance with the terms found in the
+SPIRALCRAFT-LICENSE.txt file at the top of this distribution, or available
+at http://www.spiralcraft.org/licensing/SPIRALCRAFT-LICENSE.txt.
+
+Unless otherwise agreed to in writing, this software is distributed on an
+"AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+
+-->
+<project name="build-spiralcraft-common">
+
+  <!--  
+    Customize this file for your organization. 
+    
+    Specify common properties here, as well as additional common targets
+  -->
+
+  <!-- Used to construct artifact names to build and publish -->
+  <property name="organization" value="spiralcraft" />
+  
+  <!-- Used in javadoc, copyright, etc. -->
+  <property name="organization-title" value="Spiralcraft, Inc." />
+
+  <!-- Dotted package name for your organization- eg. "org.myco" -->
+  <property name="organization-package.name" value="spiralcraft" />
+  
+  
+  <import file="build-common.xml"/>
+
+</project>
+

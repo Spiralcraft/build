@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+Copyright (c) 1998,2009 Michael Toth
+Spiralcraft Inc., All Rights Reserved
+
+This package is part of the Spiralcraft project and is licensed under
+a multiple-license framework.
+
+You may not use this file except in compliance with the terms found in the
+SPIRALCRAFT-LICENSE.txt file at the top of this distribution, or available
+at http://www.spiralcraft.org/licensing/SPIRALCRAFT-LICENSE.txt.
+
+Unless otherwise agreed to in writing, this software is distributed on an
+"AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+
+-->
+<project name="build-launch"
+  xmlns:ivy="antlib:org.apache.ivy.ant"
+  >
+  <property name="launch.dir" value="run"/>
+  <property name="launch.antfile" value="LAUNCH.ant.xml"/>
+  <property name="launch.target" value="launch"/>
+    
+  <target name="launch" description="Launch application">
+    <ant dir="${launch.dir}" antfile="${launch.antfile}" target="${launch.target}"/>
+  </target>
+    
+  <macrodef name="devdaemon">
+    <attribute name="dir" default="."/>
+    <attribute name="codebase" default="@{dir}"/>
+    <attribute name="env" default="exec"/>
+    <attribute name="vmargs" default=""/>
+    <attribute name="launchArgs" default=""/>
+    <attribute name="exec" default=""/>
+    <sequential>
+      <echo message="os.name = [${os.name}]"/>
+      <echo message="From dir [@{dir}]"/>
+      <echo message='Running: java @{vmargs} 
+        -jar "${common-build.dir}/lib/spiralcraft.jar"
+          @{launchArgs} --codebase @{codebase} @{env} @{exec}'
+      />
+      
+      <exec osfamily="windows" executable="cmd" dir="@{dir}">
+        <arg 
+          line='/c start cmd /K java @{vmargs} 
+                -jar "${common-build.dir}/lib/spiralcraft.jar"
+                @{launchArgs} --codebase @{codebase} @{env} @{exec}'
+        />
+      </exec>   
+      <exec osfamily="mac" executable="java" dir="@{dir}">
+        <arg 
+          line='@{vmargs} 
+                -jar "${common-build.dir}/lib/spiralcraft.jar"
+                @{launchArgs} --codebase @{codebase} @{env} @{exec}'
+        />
+      </exec>   
+    </sequential>
+  </macrodef> 
+  
+  <macrodef name="devgui">
+    <attribute name="dir" default="."/>
+    <attribute name="codebase" default="@{dir}"/>
+    <attribute name="env" default="exec"/>
+    <attribute name="vmargs" default=""/>
+    <attribute name="launchArgs" default=""/>
+    <attribute name="exec" default=""/>
+    <sequential>
+      <echo message="os.name = [${os.name}]"/>
+      <echo message="os.family = [${os.family}]"/>
+      <echo message="From dir [@{dir}]"/>
+      <echo message='Running: java @{vmargs} 
+        -jar "${common-build.dir}/lib/spiralcraft.jar"
+          @{launchArgs} --codebase @{codebase} @{env} @{exec}'
+      />
+      
+      <exec osfamily="windows" executable="cmd" dir="@{dir}">
+        <arg 
+          line='/K javaw @{vmargs} 
+                -Dswing.defaultlaf=com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel
+                -jar "${common-build.dir}/lib/spiralcraft.jar"
+                @{launchArgs} --codebase @{codebase} @{env} @{exec}'
+        />
+      </exec>   
+      <exec osfamily="mac" executable="java" dir="@{dir}">
+        <arg 
+          line='@{vmargs} 
+                -Dswing.defaultlaf=com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel
+                -jar "${common-build.dir}/lib/spiralcraft.jar" 
+                @{launchArgs} --codebase @{codebase} @{env} @{exec}'
+          />
+        </exec>   
+    </sequential>
+  </macrodef> 
+	
+  <macrodef name="devtask">
+    <attribute name="dir" default="."/>
+    <attribute name="codebase" default="@{dir}"/>
+    <attribute name="env" default="exec"/>
+    <attribute name="vmargs" default=""/>
+    <attribute name="launchArgs" default=""/>
+    <attribute name="exec" default=""/>
+    <sequential>
+      <echo message="os.name = [${os.name}]"/>
+      <echo message="From dir [@{dir}]"/>
+      <echo message='Running: java @{vmargs} 
+         -jar "${common-build.dir}/lib/spiralcraft.jar"
+          @{launchArgs} --codebase @{codebase} @{env} @{exec}'
+      />
+      
+      <exec executable="java" dir="@{dir}">
+        <arg line='@{vmargs} -jar "${common-build.dir}/lib/spiralcraft.jar"
+                @{launchArgs} --codebase @{codebase} @{env} @{exec}'
+        />
+      </exec>   
+
+    </sequential>
+  </macrodef> 
+	
+  <macrodef name="makeDataImage">
+    <attribute name="sourceDir" default="data"/>
+    <attribute name="targetDir" default="data.img"/>
+    <attribute name="tag" default="${DSTAMP}-${TSTAMP}"/>
+    <attribute name="prefix" default="data"/>
+    <sequential>
+      <zip basedir="data" level="9" destfile="@{targetDir}/@{prefix}.@{tag}.zip"/>
+    </sequential>
+  </macrodef>
+    
+  <macrodef name="restoreDataImage">
+    <attribute name="sourceDir" default="data.img"/>
+    <attribute name="targetDir" default="data"/>
+    <attribute name="tag" default="${DSTAMP}-{TSTAMP}"/>
+    <attribute name="prefix" default="data"/>
+    <sequential>
+      <if>
+        <available file="@{sourceDir}/@{prefix}.@{tag}.zip"/>
+        <then>
+          <delete>
+            <fileset dir="data" includes="**/**"/>
+          </delete>
+          <unzip src="@{sourceDir}/@{prefix}.@{tag}.zip" dest="@{targetDir}"/>
+        </then>
+        <else>
+          <fail message="File does not exist @{sourceDir}/@{prefix}.@{tag}.zip"/>
+        </else>
+      </if>
+    </sequential>
+  </macrodef>
+    
+</project>

@@ -1,0 +1,8 @@
+build-local.xml
+build-local.properties
+.git
+zip
+ivy.settings-local.xml
+ivy-local.settings.xml
+lib
+bin

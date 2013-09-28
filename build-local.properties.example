@@ -1,0 +1,31 @@
+# Root path for temporary compiler output for an organizations module tree
+#
+#temp.root=c:/mytempdir/myorganization/
+
+
+# Path for the "release-upstream" target to use to publish a release to the
+#   upstream public repository
+#
+#release-ftp-path=sftp://myUsername@host.domain.tld/path/to/repository/
+
+# Path to the key file to use for releasing upstream via sftp
+#
+#release-keyfile=myHomeDir/.ssh/id_rsa
+
+
+# Path for the "release-snapshot" target to use to publish a release to the 
+#   snapshot repository
+#
+#snapshot-ftp-path=sftp://myUsername@host.domain.tld/path/to/repository/
+
+# Path to the key file to use for releasing a snapshot via sftp
+#
+#snapshot-keyfile=myHomeDir/.ssh/id_rsa
+
+
+
+# Clean the remote cache before each build (re-downloads all dependencies)
+#
+# Use to troubleshoot cache based issues with the build process.
+#
+#ivy-cleanRemoteCache=true

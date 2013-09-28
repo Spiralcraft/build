@@ -1,0 +1,1096 @@
+<scm:Change.list
+  xmlns:scm="class:/spiralcraft/scm/meta/"
+  >
+  
+  <scm:Change>
+    <date>2013-06-28
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Provide for project-specific ivy settings
+      </scm:Note>
+      <scm:Note>Set up public maven repos and use them by default for 
+        common modules.
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build-ivy.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2013-03-06
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Fix launch4j unpack on OSX and linux
+      </scm:Note>
+      <scm:Note>Add spiralcraft-ant integration
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build-common.xml
+      </URI>      
+      <URI>build.xml
+      </URI>      
+      <URI>build-native.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2013-03-06
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Add manifest supplement option
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build-common.xml
+      </URI>      
+      <URI>manifest-template
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2013-03-06
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Integrate Spiralcraft ant library
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build-common.xml
+      </URI>      
+      <URI>ivy.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2013-02-11
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Added OSX to the devdaemon and devgui launchers
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build-launch.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2013-01-08
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Targets to create and restore data images
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build-common.xml
+      </URI>      
+      <URI>build-app.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2012-08-05
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Make ivy retrieval target dir a property.
+      </scm:Note>
+      <scm:Note>Add various elements to the package format
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-app.xml
+      </URI>      
+      <URI>build-common.xml
+      </URI>      
+      <URI>build-ivy.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2012-07-02
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>When building a package, the resulting .zip file is
+        copied to ${package.dir}, which defaults to "packages" off the
+        build root.
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-app.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2012-06-25
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Installation option for packages turned on if property
+        "package.${package.name}.dest" is set
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-app.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2012-05-02
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Force jdk1.6 target and source for javac compile
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>ivy.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2012-04-11
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Incorporate spiralcraft-shell package into build set for
+        interactive testing purposes
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>ivy.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2012-04-10
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Add ant-contrib to dependencies to take advantage of
+        "If" tag for package management
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-app.xml
+      </URI>      
+      <URI>build-common.xml
+      </URI>      
+      <URI>build.xml
+      </URI>      
+      <URI>ivy.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2011-11-18
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Create ivy package retrieval dir before retrieving package
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-ivy.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2011-09-30
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Added overridable empty prepack-copy task to copy relevant files
+        to the package staging dir before package is built
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-app.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2011-09-13
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Separate package staging and package source locations
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-app.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+  
+  <scm:Change>
+    <date>2011-09-13
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Prioritize versioned package resource before jar
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-ivy.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+  
+  <scm:Change>
+    <date>2011-08-08
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Package dirs that manage their own subdirectory tree will
+        wipe the tree clean before installing into it.
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-app.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2011-08-07
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>package-assembly-dir is now configurable. Defaults to "package"
+        from project dir.
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-app.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2011-05-31
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>war.libs.move and war.libs.copy filesets are now
+        set to overwrite and preservelastmodified
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>ivy.settings.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2011-05-17
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Add new "local" chain which resolved to cvs only
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>ivy.settings.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+  
+  
+
+  <scm:Change>
+    <date>2011-05-02
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Use ivy-resolve-conf property as conf property for ivy:resolve task
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-ivy.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+  
+  <scm:Change>
+    <date>2011-04-25
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Fix double-execute of build-ivy.publish-local target
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-common.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2011-04-20
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Create new "package" type to handle modules that distribute
+        collections of resources that must be unpacked into different
+        parts of the target project.
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>ivy-settings.xml
+      </URI>
+      <URI>build-app.xml
+      </URI>      
+      <URI>build-common.xml
+      </URI>      
+      <URI>build-ivy.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2011-04-18
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Chain spiralcraft public repo into default resolver.
+      </scm:Note>
+      <scm:Note>Set up spiralcraft-snapshot resolver chain and build target
+      </scm:Note>      
+    </notes>
+    
+    <resources>
+      <URI>ivy-settings.xml
+      </URI>
+      <URI>build-ivy.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2011-04-08
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Property ivy-resolve-conf defaults to "*"
+      </scm:Note>
+      <scm:Note>Print all launch args
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-ivy.xml
+      </URI>
+      <URI>build-launch.xml
+      </URI>
+    </resources>
+  </scm:Change>
+  
+  <scm:Change>
+    <date>2011-04-05
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Property ivy-resolve-conf to specify which configuration to
+        resolve for standard build.
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-ivy.xml
+      </URI>
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2011-04-03
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Target "cleanLogs" to clean logs based on "logs.dir" property
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-common.xml
+      </URI>
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2011-03-30
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Provide alternate target for native builder and launch4j
+        functionality
+      </scm:Note>
+      <scm:Note>Remove launch4j taskdef
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-common.xml
+      </URI>
+      <URI>build.xml
+      </URI>
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2011-03-22
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Handle situation where we need to publish some files with
+        embedded revision numbers and some without by using 
+        "publish.resolver.type" property to specify how and where the project
+        will be published.
+      </scm:Note>
+      <scm:Note>Upstream public release uses appropriate resolver type for
+        project.
+      </scm:Note>
+      <scm:Note>Remove launch4j dependency for now
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-common.xml
+      </URI>
+      <URI>build-ivy.xml
+      </URI>
+      <URI>ivy.settings.xml
+      </URI>
+      <URI>ivy.xml
+      </URI>
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2011-03-17
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Put js,tgl files in [organization]-[module] subdirs
+        to facilitate mixed ivy and non-ivy management of certain types
+        of files.
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-common.xml
+      </URI>
+      <URI>build-ivy.xml
+      </URI>
+    </resources>
+  </scm:Change>
+  
+  <scm:Change>
+    <date>2011-03-17
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>OS detection code
+      </scm:Note>
+      <scm:Note>Build in launch4j resolution
+      </scm:Note>
+      <scm:Note>Direct ivy retrieval of file types into their appropriate
+        locations (no more need to copy from lib directory)
+      </scm:Note>
+      <scm:Note>Support creating .zip distributions
+      </scm:Note>
+      <scm:Note>Support upstream public releases
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build.xml
+      </URI>
+      <URI>build-app.xml
+      </URI>
+      <URI>build-common.xml
+      </URI>
+      <URI>build-ivy.xml
+      </URI>
+      <URI>build-local.properties.example
+      </URI>
+      <URI>ivy-local.settings.xml.example
+      </URI>
+      <URI>ivy.settings.xml
+      </URI>
+      <URI>ivy.xml
+      </URI>
+    </resources>
+  </scm:Change>
+  
+  <scm:Change>
+    <date>2011-03-04
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Put CHANGES file back into .jar.
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-common.xml
+      </URI>
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2011-02-06
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Don't put CHANGES file into .jar.
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-common.xml
+      </URI>
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2011-01-12
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>New copy-source target when artifacts are delivered in source 
+        code form, e.g. javascript
+      </scm:Note>
+      <scm:Note>cleanData target cleans xlog and history directories, and
+        resets the txid
+      </scm:Note>
+      <scm:Note>"publish" target to publish without trying to compile first
+      </scm:Note>
+      <scm:Note>js.dir,tgl.dir properties and js.move,tgl.move filesets
+        to put javascript and tgl files into appropriate places on resolve
+      </scm:Note>
+
+    </notes>
+    
+    <resources>
+      <URI>build-common.xml
+      </URI>
+      <URI>build-ivy.xml
+      </URI>
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2010-12-08
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Run all ant builds in temp dir that is outside of tree. Provide
+        "temp-root" property to configure global root for compilation output
+        for all modules in organization.
+      </scm:Note>
+      <scm:Note>Retrieve ivy files into lib/ivy to indicate which versions
+        have been resolved.
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-common.xml
+      </URI>
+      <URI>build-ivy.xml
+      </URI>
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2010-12-07
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Distribute ivy.xml so clients can rebuild
+      </scm:Note>
+      <scm:Note>Allow specification of optional "temp.basedir" property to keep 
+        temporary staging copy out of the local project dir.
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-common.xml
+      </URI>
+      <URI>DISTRIBUTE.ant.xml
+      </URI>
+      <URI>ivy.xml
+      </URI>
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2010-11-09
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Upgrade ivy to 2.2.0
+      </scm:Note>
+      <scm:Note>Remove all libs from cvs
+      </scm:Note>
+      <scm:Note>Build the build system before building a project
+      </scm:Note>
+      <scm:Note>Add war-prepare target for override
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-ivy.xml
+      </URI>
+      <URI>build-common.xml
+      </URI>
+      <URI>build-war.xml
+      </URI>
+      <URI>ivy.xml
+      </URI>
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2010-08-30
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Upgrade ivy to 2.2.0rc1
+      </scm:Note>
+      <scm:Note>Ensure that ivy resolution overwrites even newer files from
+        cvs
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-ivy.xml
+      </URI>
+      <URI>lib/ivy.jar
+      </URI>
+    </resources>
+  </scm:Change>
+  
+  <scm:Change>
+    <date>2010-08-18
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Quoted launch jar path to avoid path issues on windows
+        when special chars are present
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>ivy.xml
+      </URI>
+      <URI>build-launch.xml
+      </URI>
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2010-07-18
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Added launch target, updated dependencies
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>ivy.xml
+      </URI>
+      <URI>build-launch.xml
+      </URI>
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2010-07-18
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Added data reset target "cleanData"
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-ivy.xml
+      </URI>
+      <URI>build-common.xml
+      </URI>
+    </resources>
+  </scm:Change>
+    
+  <scm:Change>
+    <date>2010-03-27
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Make ivy resolution mode dynamic 
+      </scm:Note>
+      <scm:Note>Make key targets public
+      </scm:Note>
+    </notes>
+    
+    <resources>
+      <URI>build-ivy.xml
+      </URI>
+      <URI>build-common.xml
+      </URI>
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2010-03-16
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Rename ivy cache clean-up target to not conflict with main
+        clean target
+      </scm:Note>
+    </notes>
+    
+    <path>build-ivy.xml
+    </path>
+    
+  </scm:Change>
+
+  <scm:Change>
+    <date>2010-03-09
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Generate war file contingent on war.output.path being set
+      </scm:Note>
+    </notes>
+    
+    <path>build-war.xml
+    </path>
+    
+  </scm:Change>
+
+  <scm:Change>
+    <date>2010-03-08
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Parameterize source dir and check for existence before 
+        running compile and jar
+      </scm:Note>
+    </notes>
+    
+    <path>build-common.xml
+    </path>
+    
+  </scm:Change>
+
+  <scm:Change>
+    <date>2010-02-24
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Variable war.libs.move to move libs to war/WEB-INF/lib instead
+        of copying
+      </scm:Note>
+    </notes>
+    
+  </scm:Change>
+
+  <scm:Change>
+    <date>2009-12-15
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Straightened out launch4j configuration- only used when
+        actually required
+      </scm:Note>
+    </notes>
+    
+  </scm:Change>
+
+  <scm:Change>
+    <date>2009-11-15
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Ivy cache in dependency tree is always deleted before a build
+      </scm:Note>
+    </notes>
+    
+  </scm:Change>
+
+  <scm:Change>
+    <date>2009-05-09
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Made version tagging a macro
+      </scm:Note>
+      <scm:Note>Smoke task includes versions dump
+      </scm:Note>
+      <scm:Note>WAR build
+      </scm:Note>
+    </notes>
+    
+  </scm:Change>
+
+  <scm:Change>
+    <date>2009-05-06
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>IVY publish will check for existence of repository dir (CVS for
+        now) and only prevent overwrite for managed (released) builds.
+      </scm:Note>
+    </notes>
+    
+  </scm:Change>
+
+  <scm:Change>
+    <date>2009-05-04
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Default IVY publish op to not overwrite existing version.
+        Manually delete the uncommitted dir if it needs to be replaced.
+      </scm:Note>
+    </notes>
+    
+  </scm:Change>
+
+  <scm:Change>
+    <date>2009-04-28
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Automatically run task-based smoke tests in test/test.ant.xml
+      </scm:Note>
+    </notes>
+    
+  </scm:Change>
+
+  <scm:Change>
+    <date>2009-04-20
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Parameterized launch arguments instead of hardcoding --debug
+      </scm:Note>
+      
+      <scm:Note>Moved SCM related files into META-INF/spiralcraft-scm 
+        directory, and incorporated CHANGES.xml into shipped jar.
+      </scm:Note>
+      
+      <scm:Note>Clean now wipes entire output directory
+      </scm:Note>
+      
+    </notes>
+    
+  </scm:Change>
+</scm:Change.list>

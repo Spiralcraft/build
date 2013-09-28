@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+Copyright (c) 1998,2009 Michael Toth
+Spiralcraft Inc., All Rights Reserved
+
+This package is part of the Spiralcraft project and is licensed under
+a multiple-license framework.
+
+You may not use this file except in compliance with the terms found in the
+SPIRALCRAFT-LICENSE.txt file at the top of this distribution, or available
+at http://www.spiralcraft.org/licensing/SPIRALCRAFT-LICENSE.txt.
+
+Unless otherwise agreed to in writing, this software is distributed on an
+"AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+
+-->
+<ivysettings>
+  <resolvers>
+    <url name="spiralcraft">
+      <ivy 
+        pattern="http://publish.spiralcraft.com/[module]/current/[revision]/artifacts/ivy.xml"
+      />
+      <artifact pattern="http://publish.spiralcraft.com/[module]/current/[revision]/artifacts/[module].[ext]" 
+      />
+    </url>
+  
+    <filesystem name="luntlocal">
+      <ivy 
+        pattern="/opt/luntbuild/publish/[module]/current/[revision]/artifacts/ivy.xml"
+      />
+      <artifact pattern="/opt/luntbuild/publish/[module]/current/[revision]/artifacts/[module].[ext]" 
+      />
+    </filesystem>
+  </resolvers>
+  <settings defaultResolver="spiralcraft"/>
+  <modules>
+    <module organisation="spiralcraft" name=".*" resolver="spiralcraft" />
+  </modules>
+</ivysettings>

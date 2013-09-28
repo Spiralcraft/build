@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+Copyright (c) 1998,2009 Michael Toth
+Spiralcraft Inc., All Rights Reserved
+
+This package is part of the Spiralcraft project and is licensed under
+a multiple-license framework.
+
+You may not use this file except in compliance with the terms found in the
+SPIRALCRAFT-LICENSE.txt file at the top of this distribution, or available
+at http://www.spiralcraft.org/licensing/SPIRALCRAFT-LICENSE.txt.
+
+Unless otherwise agreed to in writing, this software is distributed on an
+"AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+
+-->
+<project name="build-app"
+  xmlns:ivy="antlib:org.apache.ivy.ant"
+  >
+  <fileset id="zip.exec.out" dir="." includes="dummy"/>
+    
+  <property name="zip-output-dir" value="${zip.dir}"/>
+
+  <!-- For unpacking packages -->
+  <property name="package.war-js.dir" value="${war.dir}/js"/>
+  <property name="package.war-webui.dir" value="${war.dir}/WEB-INF/webui"/>
+  <property name="package.war-css.dir" value="${war.dir}/css"/>
+  <property name="package.war-lib.dir" value="${war.dir}/WEB-INF/lib"/>
+  <property name="package.war-classes.dir" value="${war.dir}/WEB-INF/classes"/>
+  <property name="package.war-public-images.dir" value="${war.dir}/images"/>
+  <property name="package.war-public.dir" value="${war.dir}"/>
+  <property name="package.war-root.dir" value="${war.dir}"/>
+  <property name="package.config.dir" value="${resolve-target-root-dir}/config"/>
+  <property name="package.app-bin.dir" value="${resolve-target-root-dir}/bin"/>
+  <property name="package.app-config.dir" value="${resolve-target-root-dir}/config"/>
+  <property name="package-staging-dir" value="package-stage"/>
+  <property name="package-source-dir" value="package"/>
+  <property name="packages.dir" value="${resolve-target-root-dir}/packages"/>
+    
+    
+  <target name="zip">
+    <echo message= "zip: ${build.name}"/>
+    <mkdir dir="${zip-output-dir}"/>
+    <zip 
+      destfile="${zip-output-dir}/${zip.name}"
+      level="9"
+      defaultExcludes="false"
+      >
+      <fileset refid="zip.out"/>
+      <zipfileset refid="zip.exec.out"/>
+      <exclude name="**/.svn/"/>
+      <exclude name="**/CVS/"/>
+      <exclude name="**/bin/"/>
+    </zip>       
+  </target>
+    
+  <macrodef name="unpack">
+    <attribute name="zip-file"/>
+    <attribute name="zip-dir" default=""/>
+    <attribute name="subdir" default=""/>
+    <sequential>
+      <if>
+        <not>
+          <equals arg1="${package.@{zip-dir}.exclude}" arg2="true" />
+        </not>
+        <then>
+          <unzip 
+            src="@{zip-file}" 
+            dest="${package.@{zip-dir}.dir}/@{subdir}" 
+            overwrite="true"
+            >
+            <patternset>
+              <include name="@{zip-dir}/**"/>
+            </patternset>
+            <cutdirsmapper dirs="1"/>
+          </unzip>
+        </then>
+      </if>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="install">
+    <attribute name="source"/>
+    <attribute name="package-name"/>
+    <sequential>
+      <copy file="@{source}" tofile="${package.@{package-name}.dest}/@{package-name}.zip"/>
+    </sequential>
+  </macrodef>
+    
+  <macrodef name="unpack-preclean">
+    <attribute name="zip-dir" default=""/>
+    <attribute name="subdir" default=""/>
+    <sequential>
+      <if>
+        <not>
+          <equals arg1="${package.@{zip-dir}.exclude}" arg2="true" />
+        </not>
+        <then>
+            <delete 
+              dir="${package.@{zip-dir}.dir}/@{subdir}" 
+            />
+        </then>
+      </if>
+    </sequential>
+  </macrodef>
+    
+  <target name="unpack">
+
+    <sequential>
+      <echo>Unpacking ${dep.to} ... </echo>
+      <loadproperties>
+        <zipentry zipfile="${dep.to}" name="META-INF/Package.properties"/>
+      </loadproperties>
+
+      <property name="package.${package.name}.dest" value="${packages.dir}"/>
+        
+      <if>
+        <isset property="package.${package.name}.expand"/>
+        <then>
+        
+          <unpack-preclean zip-dir="war-js" subdir="${package.name}"/>
+          <unpack-preclean zip-dir="war-webui" subdir="${package.name}"/>
+          <unpack-preclean zip-dir="war-css" subdir="${package.name}"/>
+          <unpack-preclean zip-dir="war-public-images" subdir="${package.name}"/>
+          <unpack-preclean zip-dir="war-public" subdir="${package.name}"/>
+          <unpack-preclean zip-dir="config" subdir="${package.name}"/>
+        </then>
+      </if>
+        
+      <if>
+        <isset property="package.${package.name}.expand"/>
+        <then>
+          <unpack zip-file="${dep.to}" zip-dir="war-js" subdir="${package.name}"/>
+          <unpack zip-file="${dep.to}" zip-dir="war-webui" subdir="${package.name}"/>
+          <unpack zip-file="${dep.to}" zip-dir="war-css" subdir="${package.name}"/>
+          <unpack zip-file="${dep.to}" zip-dir="war-lib"/>
+          <unpack zip-file="${dep.to}" zip-dir="war-classes"/>
+          <unpack zip-file="${dep.to}" zip-dir="war-public-images" subdir="${package.name}"/>
+          <unpack zip-file="${dep.to}" zip-dir="war-public" subdir="${package.name}"/>
+          <unpack zip-file="${dep.to}" zip-dir="war-root"/>
+          <unpack zip-file="${dep.to}" zip-dir="config" subdir="${package.name}"/>
+          <unpack zip-file="${dep.to}" zip-dir="app-bin"/>
+          <unpack zip-file="${dep.to}" zip-dir="app-config"/>
+        </then>
+        <else>
+          <install source="${dep.to}" package-name="${package.name}"/>
+        </else>
+      </if>
+      <delete file="${dep.to}"/>
+      <echo>Done unpacking ${dep.to}</echo>
+    </sequential>
+  </target>  
+    
+  <target name="prepack-init">
+    <mkdir dir="${package-output-dir}"/>
+    <delete dir="${package-output-dir}"/>
+    <mkdir dir="${package-output-dir}"/>
+    <mkdir dir="${package-staging-dir}"/>
+    <delete dir="${package-staging-dir}"/>
+    <mkdir dir="${package-staging-dir}"/>
+    <copy todir="${package-staging-dir}"
+      failonerror="false"
+      preservelastmodified="true"
+      overwrite="true"
+      >
+      <fileset dir="${package-source-dir}"/>
+    </copy>
+  </target>
+      
+  <target name="prepack-war-lib-file" if="package.war-lib.file">
+    <copy
+      todir="${package-staging-dir}/war-lib"
+      failonerror="true"
+      preservelastmodified="true"
+      overwrite="true"
+      >
+      <fileset file="${package.war-lib.file}"/>
+    </copy>
+    <delete file="${package.war-lib.file}"/>
+  </target>
+
+  <target name="prepack-copy"/>
+    
+  <target name="pack" depends="prepack-init,prepack-copy,prepack-war-lib-file">
+    <echo message="package: ${build.name}"/>
+    <property name="zip-name"
+      value="${organization}-${module}-${buildVersion}.zip"
+    />
+    <mkdir dir="${package-output-dir}/${zip-name}-metadata/META-INF"/>
+    <copy 
+      todir="${package-output-dir}/${zip-name}-metadata/META-INF"
+      failonerror="false"
+      preservelastmodified="true"
+      overwrite="true"
+      >
+      <fileset dir="package/META-INF"/>
+    </copy>
+    <propertyfile file="${package-output-dir}/${zip-name}-metadata/META-INF/Package.properties">
+      <entry key="package.name" value="${organization}-${module}"/>
+    </propertyfile>
+    
+    <zipfileset id="zip.out" dir="${package-staging-dir}"/>      
+    <zip 
+      destfile="${package-output-dir}/${zip-name}"
+      level="9"
+      defaultExcludes="false"
+      >
+      <fileset refid="zip.out"/>
+      <fileset dir="${package-output-dir}/${zip-name}-metadata"/>
+      <zipfileset refid="zip.exec.out"/>
+      <exclude name="**/.svn/"/>
+      <exclude name="**/CVS/"/>
+      <exclude name="**/bin/"/>
+    </zip>  
+    <delete dir="${package-staging-dir}"/>
+    <mkdir dir="${packages.dir}"/>
+    <copy
+      file="${package-output-dir}/${zip-name}"
+      tofile="${packages.dir}/${organization}-${module}.zip"
+    />
+  </target>
+  
+</project>

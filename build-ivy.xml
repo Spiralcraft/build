@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+Copyright (c) 1998,2009 Michael Toth
+Spiralcraft Inc., All Rights Reserved
+
+This package is part of the Spiralcraft project and is licensed under
+a multiple-license framework.
+
+You may not use this file except in compliance with the terms found in the
+SPIRALCRAFT-LICENSE.txt file at the top of this distribution, or available
+at http://www.spiralcraft.org/licensing/SPIRALCRAFT-LICENSE.txt.
+
+Unless otherwise agreed to in writing, this software is distributed on an
+"AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+
+-->
+<project name="build-ivy"
+  xmlns:ivy="antlib:org.apache.ivy.ant"
+  >
+  <property name="publish.resolver.type" value="jar"/>
+  <property name="ivy-resolve-conf" value="${ivy.configurations}"/>
+  <property name="ivy.package-retrieve-dir" value="${temp.basedir}/ivy-deps"/>
+    
+  <taskdef 
+    resource="org/apache/ivy/ant/antlib.xml" 
+    uri="antlib:org.apache.ivy.ant"
+    classpath="${depends.dir}/apache/ivy/2.2.0/ivy.jar:${depends.dir}/jcraft/jsch/0.1.42/jsch.jar"
+  />
+  
+  <condition property="isIvy">
+    <available file="ivy.xml"/>
+  </condition>
+  
+  <condition 
+    property="ivySettings" 
+    value="${common-build.dir}/ivy.lunt.settings.xml"
+    >
+    <and>
+      <isset property="isIvy"/>
+      <isset property="artifactsDir"/>
+    </and>
+      
+  </condition>
+  
+  <condition
+    property="ivySettings"
+    value="${basedir}/ivy.settings.xml"
+    >
+    <and>
+      <isset property="isIvy"/>
+      <available file="${basedir}/ivy.settings.xml"/>
+    </and>
+  </condition>
+
+  <condition
+    property="ivySettings"
+    value="${common-build.dir}/ivy-local.settings.xml"
+    >
+    <and>
+      <isset property="isIvy"/>
+      <available file="${common-build.dir}/ivy-local.settings.xml"/>
+    </and>
+  </condition>
+    
+  <property name="ivySettings" value="${common-build.dir}/ivy.settings.xml"/>
+  <property name="ivy-resolver" value="default"/>  
+  <property name="release-keyfile" location="${common-build.dir}/dummy_keyfile"/>  
+  <property name="snapshot-keyfile" location="${common-build.dir}/dummy_keyfile"/>  
+
+  <target name="cleanIvyRemoteCache" if="ivy-cleanRemoteCache">
+    <echo message="Removing ivy remote cache"/>
+    <mkdir dir="${depends.dir}/.ivyremotecache"/>
+    <delete dir="${depends.dir}/.ivyremotecache"/>
+  </target>
+    
+  <target name="cleanIvyCache" depends="cleanIvyRemoteCache">
+    <echo message="Removing temporary ivy cache"/>
+    <mkdir dir="${depends.dir}/.ivycache"/>
+    <delete dir="${depends.dir}/.ivycache"/>
+    <mkdir dir="${ivy.package-retrieve-dir}"/>
+    <delete dir="${ivy.package-retrieve-dir}"/>
+  </target>
+
+    
+  <target name="configure" unless="ivy-configured">
+    <echo>ivy-resolver: ${ivy-resolver}</echo>
+    <ivy:configure file="${ivySettings}"/> 
+    <property name="ivy-configured" value="true"/>
+  </target>
+    
+  <target name="resolve" 
+    if="isIvy"
+    depends="configure"
+    >
+      
+    <ivy:resolve 
+      file="${basedir}/ivy.xml" 
+      refresh="true" 
+      resolveMode="dynamic"
+      conf="${ivy-resolve-conf}"
+    />
+  </target>
+	
+    
+
+      
+  <target name="retrieve-lib">
+    <delete failonerror="false">
+      <fileset dir="${ivy.lib-retrieve-dir}" includes="*.jar,*.zip"/>
+    </delete>
+    <delete dir="${ivy.ivy-retrieve-dir}"/>
+        
+    <ivy:retrieve 
+      pattern="${ivy.lib-retrieve-dir}/[artifact].[ext]" 
+      useOrigin="true" 
+      overwriteMode="different"
+      ivypattern="${ivy.ivy-retrieve-dir}/[organization]-[module]-[revision].ivy.xml"
+      type="jar"
+    />
+
+    
+    <!-- gets npe
+      <ivy:artifactreport tofile="${basedir}/lib/ivyreport.xml" />
+    -->
+
+    <!-- Makes a distrib/ivys/ivy-nnnnnnn.xml tree
+      <ivy:deliver />
+    -->
+  </target>
+
+
+
+  <target name="retrieve-package" >
+    <delete dir="${packages.dir}"/>
+    <delete dir="${ivy.package-retrieve-dir}"/>
+    <mkdir dir="${ivy.package-retrieve-dir}"/>
+      
+    <ivy:retrieve 
+      pattern="${ivy.package-retrieve-dir}/[artifact].[ext]" 
+      useOrigin="true" 
+      overwriteMode="different"
+      ivypattern="${ivy.ivy-retrieve-dir}/[organization]-[module]-[revision].ivy.xml"
+      type="package"
+    />
+
+  </target> 
+    
+  <target 
+    name="retrieve" 
+    depends="cleanIvyCache,resolve,retrieve-lib,retrieve-package" 
+    if="isIvy"
+   />
+    
+    
+  
+  <condition
+    property="publish.overwrite"
+    value="false"
+    else="true"
+    >
+    <available 
+      file="${depends.dir}/${organization}/${module}/${buildVersion}/CVS"
+    />
+  </condition>
+
+  
+  <target name="publish-local" 
+    depends="resolve" if="isIvy" 
+    >
+    
+    <ivy:publish 
+      pubrevision="${buildVersion}" 
+      resolver="cvs-${publish.resolver.type}" 
+      overwrite="${publish.overwrite}"
+      forcedeliver="true"
+      srcivypattern="${lib.output.path}/ivy.xml"
+      >
+
+      <artifacts pattern="${package-output-dir}/[artifact]-${buildVersion}.zip"/>
+      <artifacts pattern="${lib.output.path}/[artifact].jar"/>
+      <artifacts pattern="${zip.dir}/[artifact]-${buildVersion}.zip"/>
+      <artifacts pattern="${zip.dir}/[artifact]-${buildVersion}.xpi"/>
+    </ivy:publish>
+      
+    <delete file="${lib.output.path}/ivy.xml"/>
+  	
+  </target>
+    
+  <target 
+    name="release-upstream" 
+    depends="publish-local" 
+    if="isIvy"
+    >
+      
+    <ivy:install 
+      from="cvs-${publish.resolver.type}" 
+      to="release-upstream-${publish.resolver.type}" 
+      organisation="${organization}"
+      module="${module}"
+      revision="${buildVersion}"
+    />
+  </target>
+
+  <target 
+    name="publish-snapshot" 
+    depends="publish-local" 
+    if="isIvy" 
+    >
+        
+    <ivy:install 
+      from="cvs-${publish.resolver.type}" 
+      to="release-snapshot-${publish.resolver.type}" 
+      organisation="${organization}"
+      module="${module}"
+      revision="${buildVersion}"
+      overwrite="true"
+    />
+  </target>
+
+</project>

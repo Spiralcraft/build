@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+Copyright (c) 1998,2009 Michael Toth
+Spiralcraft Inc., All Rights Reserved
+
+This package is part of the Spiralcraft project and is licensed under
+a multiple-license framework.
+
+You may not use this file except in compliance with the terms found in the
+SPIRALCRAFT-LICENSE.txt file at the top of this distribution, or available
+at http://www.spiralcraft.org/licensing/SPIRALCRAFT-LICENSE.txt.
+
+Unless otherwise agreed to in writing, this software is distributed on an
+"AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+
+-->
+<project name="build-common"
+  xmlns:ivy="antlib:org.apache.ivy.ant"
+  >
+  
+    
+  <dirname property="common-build.dir" file="${ant.file.build-common}" />
+
+  <property file="${basedir}/build-local.properties"/>
+
+  <property file="${common-build.dir}/build-local.properties"/>
+    
+  <property name="resolve-target-root-dir" value="${basedir}"/>
+  	
+  <property name="depends.dir" value="${common-build.dir}/../depends"/>
+
+  <property name="source.dir" value="source"/>
+
+  <property name="temp.root" value="${common-build.dir}/../temp-out"/>
+    
+  <property name="temp.basedir" value="${temp.root}/${module}"/>
+    
+  <property name="zip.dir" value="zip"/>
+    
+  <property name="war.dir" value="war"/>
+  
+  <property name="package-output-dir" value="${temp.basedir}/package-out"/> 
+
+  <property name="spiralcraft.javac.target" value="1.6"/>
+
+  <property name="spiralcraft.javac.source" value="1.6"/>
+    
+  <property name="ivy.lib-retrieve-dir" value="${resolve-target-root-dir}/lib"/>
+    
+  <property name="ivy.ivy-retrieve-dir" value="${resolve-target-root-dir}/lib/ivy"/>
+    
+  <property name="spiralcraft.baselineDataImage" value="live"/>
+    
+
+  <taskdef resource="net/sf/antcontrib/antlib.xml">
+    <classpath>
+      <pathelement location="${common-build.dir}/lib/ant-contrib.jar"/>
+    </classpath>
+  </taskdef>    
+  
+  <taskdef resource="spiralcraft/ant/antlib.xml">
+    <classpath>
+      <pathelement location="${common-build.dir}/lib/spiralcraft-ant.jar"/>
+    </classpath>
+  </taskdef>    
+  
+<!--  <buildInfo/>-->
+    
+  <condition property="isWindows" value="true">
+    <os family="windows" />
+  </condition>
+
+  <condition property="isLinux" value="true">
+    <os family="unix" />
+  </condition>
+
+  <condition property="isMac" value="true">
+    <os family="mac" />
+  </condition>
+    
+    
+  <!-- Common local settings -->
+  <import file="build-local.xml" optional="true"/>
+  
+  <!-- Project local settings -->
+  <import file="${basedir}/build-local.xml" optional="true"/>
+  
+  <!-- Application targets -->
+  <import file="build-app.xml"/>
+
+  <!-- Launch targets -->
+  <import file="build-launch.xml"/>
+
+  <!-- Ivy related targets -->
+  <import file="build-ivy.xml"/>
+  
+  <!-- .war related targets -->
+  <import file="build-war.xml"/>
+
+  <!-- .war related targets -->
+  <import file="build-native.xml"/>
+    
+  <!--  Commonly used taskdefs
+  -->  
+
+      
+
+
+  <tstamp>
+    <format property="now" pattern="yyyyMMdd-HHmmss"/>
+  </tstamp>
+
+  <property environment="env"/>
+  
+  <exec executable="hostname" outputproperty="host.name"/>
+  
+  <property name="build.id" value="${user.name}@${host.name}-${now}"/>
+  
+  <!-- default luntbuild name -->
+  <property
+    name="version" value="${buildVersion}"
+  />
+  
+
+  <property
+    name="lib.output.path" value="lib"
+  />
+    
+  <property 
+    name="build.name" value="${organization}-${module}-${version}-${build.id}"
+  />
+  <property name="manifest.class.path" value="" />
+  <property name="manifest.main.class" value=""/>
+  <property name="manifest.supplement" value="${common-build.dir}/manifest-template" />
+
+  <property name="jar.name" value="${organization}-${module}.jar"/>
+  
+  <property name="zip.name" value="${organization}-${product-type}-${module}.zip"/>
+
+  <property name="organization-package.name" value="${organization}"/>
+  
+  <property name="organization-title" value="${organization}"/>
+
+  <property 
+    name="distrib.dir" 
+    value="../../distrib/modules/${module}/${version}"
+  />  
+
+  <property 
+    name="publish.dir" 
+    value="../../depends/${organization}/${module}/${version}"
+  />  
+  
+  <condition property="isSource">
+    <available file="${source.dir}"/>
+  </condition>
+
+  <condition property="isTest">
+    <available file="test-source"/>
+  </condition>
+
+  <condition property="isSmokeTest">
+    <available file="test/test.ant.xml"/>
+  </condition>
+     
+  <condition property="isCleanDataAvailable">
+    <and>
+      <available file="${data.clean.dir}" type="dir"/>
+      <available file="${data.live.dir}" type="dir"/>
+    </and>
+  </condition>
+    
+  <condition property="isStandardBuild">
+    <not>
+      <equals arg1="${basedir}" arg2="${common-build.dir}"/>
+    </not>
+  </condition>
+    
+    
+  <target 
+    name="build" 
+    description="Generate and test runnable artifacts locally" 
+    depends="retrieve,clean,compile,jar,war,compile-test,jar-test,smoke" 
+  />
+  
+
+  
+  <macrodef name="stampVersion">
+    <attribute name="dir"/>
+    
+    <sequential>
+
+      <mkdir dir="@{dir}"/>
+      <propertyfile file="@{dir}/build-${build.name}"/>
+      <propertyfile file="@{dir}/version.properties">
+        <entry key="build.name" value="${build.name}"/>
+        <entry key="version" value="${version}"/>
+      </propertyfile>
+    </sequential>
+  </macrodef>
+  
+
+  
+	
+  <target name="zip" depends="retrieve,build-app.zip">
+  </target>
+    
+  <target name="pack" depends="build,build-app.pack"
+    description="Build and package distribution"
+  />
+    
+  <target name="copy-source" depends="retrieve">
+    <copy toDir="${lib.output.path}"
+      preservelastmodified="true"
+      failonerror="true"
+      >
+      <fileset
+        dir="source"
+        excludes="**/*.class,**/*.java,**/.svn,**/CVS"
+        >
+          
+      </fileset>
+    </copy>
+  </target>
+	
+	
+	
+  <target name="clean-test" if="isTest">
+    <mkdir dir="${temp.basedir}/test-out"/>
+    <delete dir="${temp.basedir}/test-out"/>
+    <mkdir dir="${temp.basedir}/test-out"/>
+  </target>
+
+  <target name="clean" depends="clean-test" if="isSource">
+    <mkdir dir="${temp.basedir}/out"/>
+    <delete dir="${temp.basedir}/out"/>
+    <mkdir dir="${temp.basedir}/out"/>
+  </target>
+  
+  <target name="cleanData" if="isCleanDataAvailable"
+    description="Replace live data with development snapshot"
+    >
+    <delete
+      verbose="true"
+      >
+      <fileset dir="${data.live.dir}"
+        includes="*.xml,.txid,xlog/*.xml,history/*.xml.*"
+        excludes="**/.svn,**/CVS"
+        >
+      </fileset>
+    </delete>
+
+    <copy toDir="${data.live.dir}"
+      preservelastmodified="true"
+      failonerror="true"
+      verbose="true"
+      overwrite="true"
+      >
+      <fileset
+        dir="${data.clean.dir}"
+        includes="*.xml"
+        excludes="**/.svn,**/CVS"
+        >
+          
+      </fileset>
+    </copy>    
+  </target>
+  
+  <condition property="hasLogs">
+    <available file="${logs.dir}"/>
+  </condition>
+    
+  <target name="cleanLogs" if="hasLogs" description="Clean log directories">
+    <delete
+      verbose="true"
+      >
+      <fileset dir="${logs.dir}"
+        includes="*.log,*.log.gz"
+        excludes="**/.svn,**/CVS,**/.cvsignore,**/.gitignore"
+      />
+    </delete>
+  </target>
+      
+  <target name="compile" if="isSource">
+    <echo message= "build: ${build.name}"/>
+    <javac 
+      classpath="${classpath}"
+      srcdir="${source.dir}" 
+      destdir="${temp.basedir}/out"
+      debug="true"
+      deprecation="true"
+      compiler="modern"
+      fork="true"
+      includeantruntime="false"
+      target="${spiralcraft.javac.target}"
+      source="${spiralcraft.javac.source}"
+      >
+      <compilerarg value="-Xlint"/>
+      <exclude name="${build.excludes}" if="build.excludes"/>
+      
+    </javac>
+    
+    <copy toDir="${temp.basedir}/out"
+      preservelastmodified="true"
+      failonerror="true"
+      >
+      <fileset
+        dir="source"
+        excludes="**/*.class,**/*.java,**/.svn,**/CVS"
+        >
+        
+      </fileset>
+    </copy>
+    
+    
+    <stampVersion dir="${temp.basedir}/out/META-INF/spiralcraft-scm"/>
+    
+    <copy toDir="${temp.basedir}/out/META-INF/spiralcraft-scm"
+      file="CHANGES.xml"
+      preserveLastModified="true"
+      failonerror="false"
+    />
+  </target>
+
+  <target name="compile-test" depends="jar" if="isTest">
+    <echo message= "compile-test: ${build.name}"/>
+    <javac 
+      classpath="${classpath}:${test-classpath}:${lib.output.path}/${jar.name}"
+      srcdir="test-source" 
+      destdir="${temp.basedir}/test-out"
+      debug="true"
+      deprecation="true"
+      compiler="modern"
+      fork="true"
+      includeantruntime="false"
+      target="${spiralcraft.javac.target}"
+      source="${spiralcraft.javac.source}"        
+      >
+      <compilerarg value="-Xlint"/>
+    </javac>
+    
+    <copy toDir="${temp.basedir}/test-out"
+      preservelastmodified="true"
+      failonerror="true"
+      >
+      <fileset
+        dir="test-source"
+        excludes="**/*.class,**/*.java,**/.svn,**/CVS"
+        >
+        
+      </fileset>
+    </copy>
+    <stampVersion dir="${temp.basedir}/test-out/META-INF/spiralcraft-scm/"/>
+  </target>
+  
+  <condition property="isBshSmoke">
+    <and>
+      <available file="${common-build.dir}/lib/bsh.jar"/>
+      <available file="smoke.bsh"/>
+    </and>
+  </condition>
+  
+
+  <target name="smoke" depends="versions,bshSmoke,smokeTest"
+    description="Run smoke tests without re-building"
+      >
+    
+  </target>
+  
+  <target name="stress" depends="stressTest"
+    description="Run short stress tests"
+    >
+      
+  </target>
+    
+  <target name="versions"
+    description="Display library version information"
+    >
+    <devtask env="versions"/>
+  </target>
+  
+  <target name="smokeTest" if="isSmokeTest">
+    <ant antfile="test/test.ant.xml"
+      inheritAll="false"
+    />
+  </target>
+  
+  <target name="stressTest" if="isSmokeTest">
+    <ant antfile="test/test.ant.xml"
+      inheritAll="false"
+      target="stressTest"
+    />
+  </target>
+    
+  <target name="bshSmoke" if="isBshSmoke">
+    <java
+      classname="bsh.Interpreter" 
+      failonerror="true"
+      fork="true"
+      >
+      <arg value="smoke.bsh"/>
+      <classpath>
+        <pathelement path="${classpath}"/>
+        <pathelement path="${test-classpath}"/>
+        <pathelement location="${common-build.dir}/lib/bsh.jar"/>
+        <pathelement location="${lib.output.path}/${jar.name}"/>
+        <pathelement location="${lib.output.path}/${organization}-${module}-test.jar"/>
+      </classpath>
+      
+    </java>
+  </target>
+  
+  <target name="jar" depends="compile" if="isSource">
+    <echo message= "jar: ${build.name}"/>
+    <jar 
+      destfile="${lib.output.path}/${jar.name}" 
+      basedir="${temp.basedir}/out"
+      level="9"
+      manifest="${manifest.supplement}"
+      filesetmanifest="merge"
+      >
+      <Manifest>
+        <attribute name="Class-Path" value="${manifest.class.path}"/>
+        <attribute name="Main-Class" value="${manifest.main.class}"/>   
+      </Manifest>
+      <exclude name="**/.svn,**/CVS"/>
+    </jar>
+       
+  </target>
+  
+  <target name="jar-test" depends="compile-test" if="isTest">
+    <echo message= "jar-test: ${build.name}"/>
+    
+    <jar 
+      destfile="${lib.output.path}/${organization}-${module}-test.jar" 
+      basedir="${temp.basedir}/test-out"
+      level="9"
+      >
+      <Manifest>
+        <attribute name="Class-Path" value="${manifest.class.path}"/>
+        <attribute name="Main-Class" value="${manifest.main.class}"/>   
+      </Manifest>
+      <exclude name="**/.svn,**/CVS"/>
+    </jar>    
+  </target>  
+
+  <target name="doc" depends="build"
+    description="Build and generate a new Javadoc tree"
+    >
+    <javadoc 
+      classpath="source:${classpath}"
+      sourcepath="source"
+      packagenames="${organization-package.name}.**.**"
+      header="${organization}-${module}-${version} API"
+      destdir="docs/api"
+      author="${organization-title}"
+      version="${version}-b${build.name}"
+      use="true"
+      windowtitle="${organization}-${module}-${version} API"
+      doctitle="&lt;h1&gt;${organization}-${module}-${version} API&lt;/h1&gt;"
+      maxmemory="90M"
+      failonerror="true"
+      >
+      <bottom>Copyright 1998,2007 Michael Toth, Spiralcraft, Inc.
+      </bottom>
+    </javadoc>
+  </target>
+  
+ 
+  <target
+    name="export-sandbox"
+    description="Export artifacts into local sandbox" 
+    depends="build-ivy.publish-local"
+  />
+    
+  <target name="export-snapshot"
+    depends="build-ivy.publish-snapshot"
+    description="Export artifacts to the remote snapshot repository"
+  />
+    
+  <target name="release"
+    depends="build-ivy.release-upstream"
+    description="Release artifacts to the the remote distribution repository (permanent)"
+    >
+    
+  </target>
+    
+  <target name="makeDataImage"
+    description="Make a new data image"  
+    >
+    <makeDataImage/>
+  </target>
+    
+  <target name="restoreDataImage"
+    description="Restore the baseline data image"
+    >
+    <restoreDataImage tag="${spiralcraft.baselineDataImage}"/>
+  </target>
+</project>
+

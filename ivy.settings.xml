@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+Copyright (c) 1998,2009 Michael Toth
+Spiralcraft Inc., All Rights Reserved
+
+This package is part of the Spiralcraft project and is licensed under
+a multiple-license framework.
+
+You may not use this file except in compliance with the terms found in the
+SPIRALCRAFT-LICENSE.txt file at the top of this distribution, or available
+at http://www.spiralcraft.org/licensing/SPIRALCRAFT-LICENSE.txt.
+
+Unless otherwise agreed to in writing, this software is distributed on an
+"AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+
+-->
+<ivysettings>
+  <!-- Create a local cache of any downloads, and never delete them. -->
+  
+  
+  <property name="sandbox" value="${ivy.settings.dir}/.."/>
+  <property name="cvsdepends" value="${depends.dir}"/>
+  <property name="public-repo" value="http://publish.spiralcraft.com/repo"/>
+  <property name="public-snapshot-repo" value="http://publish.spiralcraft.com/snapshot"/>
+
+  <settings defaultResolver="${ivy-resolver}"/>    
+  
+  <caches default="localcache" defaultCacheDir="${cvsdepends}/.ivycache">
+    <cache name="localcache" basedir="${cvsdepends}/.ivycache" useOrigin="true">
+      <ttl duration="1s" />
+    </cache>
+    <cache name="remotecache" basedir="${cvsdepends}/.ivyremotecache" defaultTTL="1h">
+    </cache>    
+    <cache name="stablecache" basedir="${cvsdepends}/.ivystablecache" defaultTTL="24h">
+    </cache>    
+  </caches>
+
+
+  <resolvers>
+    <chain name="cvs"
+      dual="true"
+      >
+      <filesystem name="cvs-jar" latest="latest-revision"
+        descriptor="required"
+        checkmodified="true"
+        changingPattern=".*"
+        
+        >
+        <ivy 
+          pattern="${cvsdepends}/[organisation]/[module]/[revision]/ivy.xml"
+        />
+        <artifact 
+          pattern="${cvsdepends}/[organisation]/[module]/[revision]/[artifact].[ext]" 
+        />
+        <artifact 
+          pattern="${cvsdepends}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" 
+        />
+      </filesystem>
+      <filesystem name="cvs-distrib" latest="latest-revision"
+        descriptor="required"
+        checkmodified="true"
+        changingPattern=".*"
+        
+        >
+        <ivy 
+          pattern="${cvsdepends}/[organisation]/[module]/[revision]/ivy.xml"
+        />
+        <artifact 
+          pattern="${cvsdepends}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" 
+        />
+      </filesystem>
+    </chain>
+    
+    <chain name="public-chain"
+        dual="true"
+      >
+      <url name="spiralcraft-jar" latest="latest-revision" cache="remotecache"
+        >
+        <ivy 
+          pattern="${public-repo}/[organisation]/[module]/[revision]/ivy.xml"
+        />
+        <artifact pattern="${public-repo}/[organisation]/[module]/[revision]/[artifact].[ext]" 
+        />
+        <artifact pattern="${public-repo}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" 
+        />
+      </url>
+      <url name="spiralcraft-dist" latest="latest-revision" cache="remotecache"
+        >
+        <ivy 
+          pattern="${public-repo}/[organisation]/[module]/[revision]/ivy.xml"
+        />
+        <artifact pattern="${public-repo}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" 
+        />
+      </url>
+    </chain>
+    
+    <chain name="spiralcraft-snapshot-chain"
+      dual="true"
+      >
+      <url name="spiralcraft-snapshot-jar" 
+        latest="latest-revision" 
+        cache="remotecache"
+        checkmodified="true"
+        changingPattern=".*"
+        >
+        <ivy 
+          pattern="${public-snapshot-repo}/[organisation]/[module]/[revision]/ivy.xml"
+        />
+        <artifact pattern="${public-snapshot-repo}/[organisation]/[module]/[revision]/[artifact].[ext]" 
+        />
+        <artifact pattern="${public-snapshot-repo}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" 
+        />
+      </url>
+      <url name="spiralcraft-snapshot-distrib" 
+        latest="latest-revision" 
+        cache="remotecache"
+        checkmodified="true"
+        changingPattern=".*"
+        >
+        <ivy 
+          pattern="${public-snapshot-repo}/[organisation]/[module]/[revision]/ivy.xml"
+        />
+        <artifact pattern="${public-snapshot-repo}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" 
+        />
+      </url>
+    </chain>
+    
+    <chain name="local">
+      <resolver ref="cvs"/>
+    </chain>
+    
+    <chain name="default">
+      <resolver ref="cvs"/>
+    </chain>
+
+    <chain name="spiralcraft-release">
+      <resolver ref="public-chain"/>
+      <resolver ref="cvs"/>
+    </chain>
+    
+    <chain name="spiralcraft-snapshot">
+      <resolver ref="public-chain"/>
+      <resolver ref="spiralcraft-snapshot-chain"/>
+      <resolver ref="cvs"/>
+    </chain>
+
+    
+    <sftp name="release-upstream-jar" keyFile="${release-keyfile}">
+      <ivy 
+        pattern="${release-ftp-path}/[organisation]/[module]/[revision]/ivy.xml"
+      />
+      <artifact 
+        pattern="${release-ftp-path}/[organisation]/[module]/[revision]/[artifact].[ext]" 
+      />
+    </sftp>
+    <sftp name="release-upstream-distrib" keyFile="${release-keyfile}">
+      <ivy 
+        pattern="${release-ftp-path}/[organisation]/[module]/[revision]/ivy.xml"
+      />
+      <artifact 
+        pattern="${release-ftp-path}/[organisation]/[module]/[revision]/[artifact]-[revision].zip" 
+      />
+    </sftp>
+    <sftp name="release-snapshot-jar" keyFile="${snapshot-keyfile}">
+      <ivy 
+        pattern="${snapshot-ftp-path}/[organisation]/[module]/[revision]/ivy.xml"
+      />
+      <artifact 
+        pattern="${snapshot-ftp-path}/[organisation]/[module]/[revision]/[artifact].[ext]" 
+      />
+    </sftp>
+    <sftp name="release-snapshot-distrib" keyFile="${snapshot-keyfile}">
+      <ivy 
+        pattern="${snapshot-ftp-path}/[organisation]/[module]/[revision]/ivy.xml"
+      />
+      <artifact 
+        pattern="${snapshot-ftp-path}/[organisation]/[module]/[revision]/[artifact]-[revision].zip" 
+      />
+    </sftp>
+
+
+    <chain name="maven" >
+      <ibiblio name="central" m2compatible="true" cache="stablecache"/>
+      <ibiblio name="apache" m2compatible="true" root="http://repo.maven.apache.org/maven2" cache="stablecache"/>
+    
+    </chain>
+      
+  </resolvers>    
+
+  
+  <triggers>
+    <ant-call target="unpack" 
+      prefix="dep"
+      event="post-retrieve-artifact" 
+      filter="type=package"
+    />
+  </triggers>  
+
+  <modules>
+    <module organisation="net.sourceforge.htmlunit" resolver="maven"/>
+    <module organisation="xalan"  resolver="maven"/>
+    <module organisation="org.apache" name="apache" resolver="maven"/>
+    <module organisation="xml-apis" resolver="maven"/>
+    <module organisation="commons-collections" resolver="maven"/>
+    <module organisation="org.apache.commons" resolver="maven"/>
+    <module organisation="org.apache.httpcomponents" resolver="maven"/>
+    <module organisation="commons-codec" resolver="maven"/>
+    <module organisation="commons-logging" resolver="maven"/>
+    <module organisation="xerces" resolver="maven"/>
+    <module organisation="net.sourceforge.nekohtml" resolver="maven"/>
+    <module organisation="net.sourceforge.cssparser" resolver="maven"/>
+    <module organisation="commons-io" resolver="maven"/>
+    <module organisation="org.eclipse.jetty" resolver="maven"/>
+    <module organisation="org.sonatype.oss" resolver="maven"/>
+    <module organisation="org.w3c.css" resolver="maven"/>
+    
+  </modules>
+
+</ivysettings>

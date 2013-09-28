@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+Copyright (c) 1998,2009 Michael Toth
+Spiralcraft Inc., All Rights Reserved
+
+This package is part of the Spiralcraft project and is licensed under
+a multiple-license framework.
+
+You may not use this file except in compliance with the terms found in the
+SPIRALCRAFT-LICENSE.txt file at the top of this distribution, or available
+at http://www.spiralcraft.org/licensing/SPIRALCRAFT-LICENSE.txt.
+
+Unless otherwise agreed to in writing, this software is distributed on an
+"AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+
+-->
+<project name="build-war">
+
+  
+  <property 
+    name="war.name" value="${organization}-${module}.war"
+  />
+    
+
+  <target name="war-libs-conditions">
+    <condition property="war.libs.move" value="true">
+      <isreference refid="war.libs.move"/>
+    </condition>
+
+    <condition property="war.libs.copy" value="true">
+      <isreference refid="war.libs"/>
+    </condition>
+  </target>
+      
+  <target name="war-libs" depends="war-lib-copy,war-lib-move">
+    
+  </target>
+    
+  
+  <target name="war-lib-move" if="war.libs.move" depends="war-libs-conditions">
+    <echo message= "war: Moving libs"/>  
+
+    <property name="war.dir" location="war"/>
+      
+    <copy todir="${war.dir}/WEB-INF/lib"
+      overwrite="true"
+      preservelastmodified="true"
+      >
+      <fileset refid="war.libs.move"/>
+    </copy>  
+        
+    <delete>
+      <fileset refid="war.libs.move"/>
+    </delete>
+  </target>
+  
+  
+  <target name="war-lib-copy" if="war.libs.copy" depends="war-libs-conditions">
+    <echo message= "war: Copying libs"/>  
+   
+    <property name="war.dir" location="war"/>
+      
+    <copy todir="${war.dir}/WEB-INF/lib"
+      overwrite="true"
+      preservelastmodified="true"
+      >
+      <fileset refid="war.libs"/>
+    </copy>  
+
+  </target>
+  
+    
+  <target name="war-prepare" depends="war-libs"/>
+    
+  <target name="war" depends="war-prepare" if="war.output.path">
+    <echo message= "war: ${build.name}"/>
+
+    <jar 
+      destfile="${war.output.path}/${war.name}" 
+      basedir="${war.dir}"
+      level="9"
+      >
+      <exclude name="**/.svn,**/CVS"/>
+    </jar>
+  </target>
+  
+</project>

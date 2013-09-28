@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+Copyright (c) 1998,2009 Michael Toth
+Spiralcraft Inc., All Rights Reserved
+
+This package is part of the Spiralcraft project and is licensed under
+a multiple-license framework.
+
+You may not use this file except in compliance with the terms found in the
+SPIRALCRAFT-LICENSE.txt file at the top of this distribution, or available
+at http://www.spiralcraft.org/licensing/SPIRALCRAFT-LICENSE.txt.
+
+Unless otherwise agreed to in writing, this software is distributed on an
+"AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
+
+-->
+<project name="update-common-build" default="copy">
+
+  <!-- 
+    Propogates changes to this build script system 
+   -->
+  <property
+    name="target" value="${basedir}"
+  />
+
+  <dirname property="source" file="${ant.file.update-common-build}" />
+
+
+  <target name="copy">
+    <echo message="Updating ${target} from ${source}"/>
+    
+    <copy 
+      todir="${target}"
+      failonerror="true"
+      preservelastmodified="true"
+      verbose="true"
+      overwrite="true"
+      >
+      <fileset dir="${source}">
+        <include name="build.xml"/>
+        <include name="ivy.xml"/>
+        <include name="build-common.xml"/>
+        <include name="build-app.xml"/>
+        <include name="build-ivy.xml"/>
+        <include name="build-launch.xml"/>
+        <include name="build-native.xml"/>
+        <include name="build-war.xml"/>
+        <include name="build-spiralcraft-common.xml"/>
+        <include name="ivy.settings.xml"/>
+        <include name="test-functions.bsh"/>
+        <include name="distribute-build.ant.xml"/>
+        <include name="SPIRALCRAFT-LICENSE.txt"/>
+        <include name="CHANGES.xml"/>
+        <include name="build-local.properties.example"/>
+        <include name="dummy_keyfile"/>
+      
+      </fileset>
+    </copy> 
+
+    <copy 
+      todir="${target}/lib"
+      failonerror="true"
+      preservelastmodified="true"
+      verbose="true"
+      >
+      <fileset dir="${source}/lib" includes="*.jar"/>
+    </copy>
+  </target>
+
+</project>

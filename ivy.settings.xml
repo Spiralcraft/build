@@ -145,7 +145,13 @@ Unless otherwise agreed to in writing, this software is distributed on an
       <resolver ref="cvs"/>
     </chain>
 
-    
+
+    <chain name="spiralcraft-remote">
+      <resolver ref="cvs"/>
+      <resolver ref="public-chain"/>
+      <resolver ref="spiralcraft-snapshot-chain"/>
+    </chain>
+        
     <sftp name="release-upstream-jar" keyFile="${release-keyfile}">
       <ivy 
         pattern="${release-ftp-path}/[organisation]/[module]/[revision]/ivy.xml"

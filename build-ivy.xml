@@ -25,7 +25,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <taskdef 
     resource="org/apache/ivy/ant/antlib.xml" 
     uri="antlib:org.apache.ivy.ant"
-    classpath="${depends.dir}/apache/ivy/2.2.0/ivy.jar:${depends.dir}/jcraft/jsch/0.1.42/jsch.jar"
+    classpath="${common-build.dir}/lib/ivy.jar:${common-build.dir}/lib/jsch.jar"
   />
   
   <condition property="isIvy">
@@ -217,5 +217,6 @@ Unless otherwise agreed to in writing, this software is distributed on an
       overwrite="true"
     />
   </target>
+   
 
 </project>

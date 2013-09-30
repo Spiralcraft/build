@@ -27,15 +27,12 @@ Unless otherwise agreed to in writing, this software is distributed on an
     
     
   <fileset id="zip.out" dir=".">
-    <include name="build.xml"/>
-    <include name="ivy.xml"/>
     <include name="build-common.xml"/>
     <include name="build-app.xml"/>
     <include name="build-ivy.xml"/>
     <include name="build-launch.xml"/>
     <include name="build-native.xml"/>
     <include name="build-war.xml"/>
-    <include name="build-spiralcraft-common.xml"/>
     <include name="ivy.settings.xml"/>
     <include name="test-functions.bsh"/>
     <include name="distribute-build.ant.xml"/>
@@ -45,6 +42,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
     <include name="dummy_keyfile"/>
     <include name="lib/*.jar"/>
     <include name="lib/ivy/*.xml"/>
+    <include name="resources/**"/>
     
   </fileset>      
     

@@ -3,6 +3,25 @@
   >
   
   <scm:Change>
+    <date>2013-10-04
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Move to a module build for more straightforward distribution
+        and versioning
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build-ivy.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
     <date>2013-06-28
     </date>
     

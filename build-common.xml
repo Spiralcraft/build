@@ -50,6 +50,11 @@ Unless otherwise agreed to in writing, this software is distributed on an
     
   <property name="ivy.ivy-retrieve-dir" value="${resolve-target-root-dir}/lib/ivy"/>
     
+  <property name="ivy.zip-retrieve-dir" value="${resolve-target-root-dir}/zip"/>
+    
+  <property name="ivy.retrieve-lib" value="true"/>
+  <property name="ivy.retrieve-zip" value="false"/>
+    
   <property name="spiralcraft.baselineDataImage" value="live"/>
     
 

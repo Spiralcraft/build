@@ -111,14 +111,31 @@ Unless otherwise agreed to in writing, this software is distributed on an
     </delete>
     <delete dir="${ivy.ivy-retrieve-dir}"/>
         
-    <ivy:retrieve 
-      pattern="${ivy.lib-retrieve-dir}/[artifact].[ext]" 
-      useOrigin="true" 
-      overwriteMode="different"
-      ivypattern="${ivy.ivy-retrieve-dir}/[organization]-[module]-[revision].ivy.xml"
-      type="jar"
-    />
+    <if>
+      <equals arg1="${ivy.retrieve-lib}" arg2="true"/>
+      <then>
+        <ivy:retrieve 
+          pattern="${ivy.lib-retrieve-dir}/[artifact].[ext]" 
+          useOrigin="true" 
+          overwriteMode="different"
+          ivypattern="${ivy.ivy-retrieve-dir}/[organization]-[module]-[revision].ivy.xml"
+          type="jar"
+        />
+      </then>
+    </if>
 
+    <if>
+      <equals arg1="${ivy.retrieve-zip}" arg2="true"/>
+      <then>
+        <ivy:retrieve 
+          pattern="${ivy.zip-retrieve-dir}/[artifact].[ext]" 
+          useOrigin="true" 
+          overwriteMode="different"
+          ivypattern="${ivy.ivy-retrieve-dir}/[organization]-[module]-[revision].ivy.xml"
+          type="zip"
+        />
+      </then>
+    </if>
     
     <!-- gets npe
       <ivy:artifactreport tofile="${basedir}/lib/ivyreport.xml" />
@@ -204,10 +221,17 @@ Unless otherwise agreed to in writing, this software is distributed on an
 
   <target 
     name="publish-snapshot" 
-    depends="publish-local" 
+    depends="publish-local,install-snapshot" 
     if="isIvy" 
     >
         
+  </target>
+   
+  <target
+    name="install-snapshot"
+    description="install local release to snapshot repo"
+    depends="resolve"
+    >
     <ivy:install 
       from="cvs-${publish.resolver.type}" 
       to="release-snapshot-${publish.resolver.type}" 
@@ -217,6 +241,5 @@ Unless otherwise agreed to in writing, this software is distributed on an
       overwrite="true"
     />
   </target>
-   
 
 </project>

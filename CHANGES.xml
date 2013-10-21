@@ -3,6 +3,25 @@
   >
   
   <scm:Change>
+    <date>2013-10-21
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Add install-snapshot target to push local release to snapshot
+        repo if build already locked.
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build-ivy.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
     <date>2013-10-04
     </date>
     

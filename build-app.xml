@@ -55,30 +55,6 @@ Unless otherwise agreed to in writing, this software is distributed on an
     </zip>       
   </target>
     
-  <macrodef name="unpack">
-    <attribute name="zip-file"/>
-    <attribute name="zip-dir" default=""/>
-    <attribute name="subdir" default=""/>
-    <sequential>
-      <if>
-        <not>
-          <equals arg1="${package.@{zip-dir}.exclude}" arg2="true" />
-        </not>
-        <then>
-          <unzip 
-            src="@{zip-file}" 
-            dest="${package.@{zip-dir}.dir}/@{subdir}" 
-            overwrite="true"
-            >
-            <patternset>
-              <include name="@{zip-dir}/**"/>
-            </patternset>
-            <cutdirsmapper dirs="1"/>
-          </unzip>
-        </then>
-      </if>
-    </sequential>
-  </macrodef>
 
   <macrodef name="install">
     <attribute name="source"/>
@@ -88,67 +64,17 @@ Unless otherwise agreed to in writing, this software is distributed on an
     </sequential>
   </macrodef>
     
-  <macrodef name="unpack-preclean">
-    <attribute name="zip-dir" default=""/>
-    <attribute name="subdir" default=""/>
-    <sequential>
-      <if>
-        <not>
-          <equals arg1="${package.@{zip-dir}.exclude}" arg2="true" />
-        </not>
-        <then>
-            <delete 
-              dir="${package.@{zip-dir}.dir}/@{subdir}" 
-            />
-        </then>
-      </if>
-    </sequential>
-  </macrodef>
-    
   <target name="unpack">
 
     <sequential>
-      <echo>Unpacking ${dep.to} ... </echo>
       <loadproperties>
         <zipentry zipfile="${dep.to}" name="META-INF/Package.properties"/>
       </loadproperties>
 
       <property name="package.${package.name}.dest" value="${packages.dir}"/>
         
-      <if>
-        <isset property="package.${package.name}.expand"/>
-        <then>
-        
-          <unpack-preclean zip-dir="war-js" subdir="${package.name}"/>
-          <unpack-preclean zip-dir="war-webui" subdir="${package.name}"/>
-          <unpack-preclean zip-dir="war-css" subdir="${package.name}"/>
-          <unpack-preclean zip-dir="war-public-images" subdir="${package.name}"/>
-          <unpack-preclean zip-dir="war-public" subdir="${package.name}"/>
-          <unpack-preclean zip-dir="config" subdir="${package.name}"/>
-        </then>
-      </if>
-        
-      <if>
-        <isset property="package.${package.name}.expand"/>
-        <then>
-          <unpack zip-file="${dep.to}" zip-dir="war-js" subdir="${package.name}"/>
-          <unpack zip-file="${dep.to}" zip-dir="war-webui" subdir="${package.name}"/>
-          <unpack zip-file="${dep.to}" zip-dir="war-css" subdir="${package.name}"/>
-          <unpack zip-file="${dep.to}" zip-dir="war-lib"/>
-          <unpack zip-file="${dep.to}" zip-dir="war-classes"/>
-          <unpack zip-file="${dep.to}" zip-dir="war-public-images" subdir="${package.name}"/>
-          <unpack zip-file="${dep.to}" zip-dir="war-public" subdir="${package.name}"/>
-          <unpack zip-file="${dep.to}" zip-dir="war-root"/>
-          <unpack zip-file="${dep.to}" zip-dir="config" subdir="${package.name}"/>
-          <unpack zip-file="${dep.to}" zip-dir="app-bin"/>
-          <unpack zip-file="${dep.to}" zip-dir="app-config"/>
-        </then>
-        <else>
-          <install source="${dep.to}" package-name="${package.name}"/>
-        </else>
-      </if>
+      <install source="${dep.to}" package-name="${package.name}"/>
       <delete file="${dep.to}"/>
-      <echo>Done unpacking ${dep.to}</echo>
     </sequential>
   </target>  
     

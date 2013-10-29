@@ -3,6 +3,24 @@
   >
   
   <scm:Change>
+    <date>2013-10-29
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Don't repeat ivy.resolve before publishing
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build-ivy.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
     <date>2013-10-28
     </date>
     

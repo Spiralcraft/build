@@ -92,6 +92,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <target name="resolve" 
     if="isIvy"
     depends="configure"
+    unless="ivy-resolved"
     >
       
     <ivy:resolve 
@@ -100,6 +101,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
       resolveMode="dynamic"
       conf="${ivy-resolve-conf}"
     />
+    <property name="ivy-resolved" value="true"/>
   </target>
 	
     

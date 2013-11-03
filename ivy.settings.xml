@@ -220,6 +220,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
     <module organisation="org.eclipse.jetty" resolver="maven"/>
     <module organisation="org.sonatype.oss" resolver="maven"/>
     <module organisation="org.w3c.css" resolver="maven"/>
+    <module organisation="com.stripe" resolver="maven"/>
     
   </modules>
 

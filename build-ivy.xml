@@ -74,7 +74,10 @@ Unless otherwise agreed to in writing, this software is distributed on an
     <delete dir="${depends.dir}/.ivyremotecache"/>
   </target>
     
-  <target name="cleanIvyCache" depends="cleanIvyRemoteCache">
+  <target name="cleanIvyCache" 
+    depends="cleanIvyRemoteCache" 
+    description="Clean ivy caches"
+    >
     <echo message="Removing temporary ivy cache"/>
     <mkdir dir="${depends.dir}/.ivycache"/>
     <delete dir="${depends.dir}/.ivycache"/>
@@ -167,7 +170,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
     
   <target 
     name="retrieve" 
-    depends="cleanIvyCache,resolve,retrieve-lib,retrieve-package" 
+    depends="resolve,retrieve-lib,retrieve-package" 
     if="isIvy"
    />
     

@@ -3,6 +3,24 @@
   >
   
   <scm:Change>
+    <date>2013-11-04
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Cleaning ivy caches is now an optional build target
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build-ivy.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
     <date>2013-10-29
     </date>
     

@@ -24,6 +24,27 @@
   </scm:Change>
 
   <scm:Change>
+    <date>2013-11-08
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Don't resolve and retrieve on every build, now that we're
+        using global repo's
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build-ivy.xml
+      </URI>      
+      <URI>ivy.settings.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
     <date>2013-11-04
     </date>
     

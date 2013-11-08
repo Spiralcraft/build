@@ -23,12 +23,13 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <property name="cvsdepends" value="${depends.dir}"/>
   <property name="public-repo" value="http://publish.spiralcraft.com/repo"/>
   <property name="public-snapshot-repo" value="http://publish.spiralcraft.com/snapshot"/>
+  <property name="ivy.localcache.ttl" value="1s"/>
 
   <settings defaultResolver="${ivy-resolver}"/>    
   
   <caches default="localcache" defaultCacheDir="${cvsdepends}/.ivycache">
     <cache name="localcache" basedir="${cvsdepends}/.ivycache" useOrigin="true">
-      <ttl duration="1s" />
+      <ttl duration="${ivy.localcache.ttl}" />
     </cache>
     <cache name="remotecache" basedir="${cvsdepends}/.ivyremotecache" defaultTTL="1h">
     </cache>    

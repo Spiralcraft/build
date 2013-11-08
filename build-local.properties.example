@@ -30,6 +30,14 @@
 #
 #ivy-cleanRemoteCache=true
 
+# 
+# The ttl of the ivy local cache
+#
+#ivy.localcache.ttl=1s
+
+
 # Force ivy to resolve and retrieve all dependencies on every build
 #
 #ivy.shouldResolve=true
+
+

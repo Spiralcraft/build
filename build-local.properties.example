@@ -29,3 +29,7 @@
 # Use to troubleshoot cache based issues with the build process.
 #
 #ivy-cleanRemoteCache=true
+
+# Force ivy to resolve and retrieve all dependencies on every build
+#
+#ivy.shouldResolve=true

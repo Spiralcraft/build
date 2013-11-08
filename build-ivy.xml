@@ -42,7 +42,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
     </and>
       
   </condition>
-  
+  	
   <condition
     property="ivySettings"
     value="${basedir}/ivy.settings.xml"
@@ -62,7 +62,18 @@ Unless otherwise agreed to in writing, this software is distributed on an
       <available file="${common-build.dir}/ivy-local.settings.xml"/>
     </and>
   </condition>
-    
+  
+  <condition
+  	property="ivy.shouldRetrieve"
+	>
+  	<and>
+      <isset property="isIvy"/>
+  	  <not>
+  	    <available file="${ivy.ivy-retrieve-dir}"/>
+  	  </not>
+  	</and>
+  </condition>
+  	
   <property name="ivySettings" value="${common-build.dir}/ivy.settings.xml"/>
   <property name="ivy-resolver" value="default"/>  
   <property name="release-keyfile" location="${common-build.dir}/dummy_keyfile"/>  
@@ -93,7 +104,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
   </target>
     
   <target name="resolve" 
-    if="isIvy"
+    if="ivy.shouldRetrieve"
     depends="configure"
     unless="ivy-resolved"
     >
@@ -110,7 +121,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
     
 
       
-  <target name="retrieve-lib">
+  <target name="retrieve-lib" if="ivy.shouldRetrieve">
     <delete failonerror="false">
       <fileset dir="${ivy.lib-retrieve-dir}" includes="*.jar,*.zip"/>
     </delete>
@@ -153,7 +164,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
 
 
 
-  <target name="retrieve-package" >
+  <target name="retrieve-package" if="ivy.shouldRetrieve">
     <delete dir="${packages.dir}"/>
     <delete dir="${ivy.package-retrieve-dir}"/>
     <mkdir dir="${ivy.package-retrieve-dir}"/>
@@ -171,8 +182,9 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <target 
     name="retrieve" 
     depends="resolve,retrieve-lib,retrieve-package" 
-    if="isIvy"
-   />
+  	if="ivy.shouldRetrieve"
+  	description="Retrieve dependencies"
+  />
     
     
   
@@ -188,9 +200,14 @@ Unless otherwise agreed to in writing, this software is distributed on an
 
   
   <target name="publish-local" 
-    depends="resolve" if="isIvy" 
+     if="isIvy" 
     >
-    
+    <ivy:resolve 
+      file="${basedir}/ivy.xml" 
+      refresh="true" 
+      resolveMode="dynamic"
+      conf="${ivy-resolve-conf}"
+    />    
     <ivy:publish 
       pubrevision="${buildVersion}" 
       resolver="cvs-${publish.resolver.type}" 

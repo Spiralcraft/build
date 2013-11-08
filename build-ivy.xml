@@ -21,7 +21,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <property name="publish.resolver.type" value="jar"/>
   <property name="ivy-resolve-conf" value="${ivy.configurations}"/>
   <property name="ivy.package-retrieve-dir" value="${temp.basedir}/ivy-deps"/>
-    
+
   <taskdef 
     resource="org/apache/ivy/ant/antlib.xml" 
     uri="antlib:org.apache.ivy.ant"
@@ -64,14 +64,17 @@ Unless otherwise agreed to in writing, this software is distributed on an
   </condition>
   
   <condition
-  	property="ivy.shouldRetrieve"
-	>
-  	<and>
+    property="ivy.shouldRetrieve"
+    >
+    <and>
       <isset property="isIvy"/>
-  	  <not>
-  	    <available file="${ivy.ivy-retrieve-dir}"/>
-  	  </not>
-  	</and>
+      <or>
+        <isset property="ivy.always-retrieve"/>
+        <not>
+          <available file="${ivy.ivy-retrieve-dir}"/>
+        </not>
+      </or>
+    </and>
   </condition>
   	
   <property name="ivySettings" value="${common-build.dir}/ivy.settings.xml"/>
@@ -104,87 +107,98 @@ Unless otherwise agreed to in writing, this software is distributed on an
   </target>
     
   <target name="resolve" 
-    if="ivy.shouldRetrieve"
     depends="configure"
     unless="ivy-resolved"
     >
-      
-    <ivy:resolve 
-      file="${basedir}/ivy.xml" 
-      refresh="true" 
-      resolveMode="dynamic"
-      conf="${ivy-resolve-conf}"
-    />
-    <property name="ivy-resolved" value="true"/>
+    <resolve/>
   </target>
 	
     
-
+  <macrodef name="resolve">
+    <sequential>
+      <ivy:resolve 
+        file="${basedir}/ivy.xml" 
+        refresh="true" 
+        resolveMode="dynamic"
+        conf="${ivy-resolve-conf}"
+      />
+      <property name="ivy-resolved" value="true"/>
       
-  <target name="retrieve-lib" if="ivy.shouldRetrieve">
-    <delete failonerror="false">
-      <fileset dir="${ivy.lib-retrieve-dir}" includes="*.jar,*.zip"/>
-    </delete>
-    <delete dir="${ivy.ivy-retrieve-dir}"/>
+    </sequential>
+  </macrodef>
+      
+  <macrodef name="retrieve-libs">
+    <sequential>
+      <delete failonerror="false">
+        <fileset dir="${ivy.lib-retrieve-dir}" includes="*.jar,*.zip"/>
+      </delete>
+      <delete dir="${ivy.ivy-retrieve-dir}"/>
         
-    <if>
-      <equals arg1="${ivy.retrieve-lib}" arg2="true"/>
-      <then>
-        <ivy:retrieve 
-          pattern="${ivy.lib-retrieve-dir}/[artifact].[ext]" 
-          useOrigin="true" 
-          overwriteMode="different"
-          ivypattern="${ivy.ivy-retrieve-dir}/[organization]-[module]-[revision].ivy.xml"
-          type="jar"
-        />
-      </then>
-    </if>
+      <if>
+        <equals arg1="${ivy.retrieve-lib}" arg2="true"/>
+        <then>
+          <ivy:retrieve 
+            pattern="${ivy.lib-retrieve-dir}/[artifact].[ext]" 
+            useOrigin="true" 
+            overwriteMode="different"
+            ivypattern="${ivy.ivy-retrieve-dir}/[organization]-[module]-[revision].ivy.xml"
+            type="jar"
+          />
+        </then>
+      </if>
 
-    <if>
-      <equals arg1="${ivy.retrieve-zip}" arg2="true"/>
-      <then>
-        <ivy:retrieve 
-          pattern="${ivy.zip-retrieve-dir}/[artifact].[ext]" 
-          useOrigin="true" 
-          overwriteMode="different"
-          ivypattern="${ivy.ivy-retrieve-dir}/[organization]-[module]-[revision].ivy.xml"
-          type="zip"
-        />
-      </then>
-    </if>
+      <if>
+        <equals arg1="${ivy.retrieve-zip}" arg2="true"/>
+        <then>
+          <ivy:retrieve 
+            pattern="${ivy.zip-retrieve-dir}/[artifact].[ext]" 
+            useOrigin="true" 
+            overwriteMode="different"
+            ivypattern="${ivy.ivy-retrieve-dir}/[organization]-[module]-[revision].ivy.xml"
+            type="zip"
+          />
+        </then>
+      </if>
     
-    <!-- gets npe
-      <ivy:artifactreport tofile="${basedir}/lib/ivyreport.xml" />
-    -->
+      <!-- gets npe
+        <ivy:artifactreport tofile="${basedir}/lib/ivyreport.xml" />
+      -->
 
-    <!-- Makes a distrib/ivys/ivy-nnnnnnn.xml tree
-      <ivy:deliver />
-    -->
-  </target>
+      <!-- Makes a distrib/ivys/ivy-nnnnnnn.xml tree
+        <ivy:deliver />
+      -->
+    </sequential>
+  </macrodef>
 
 
 
-  <target name="retrieve-package" if="ivy.shouldRetrieve">
-    <delete dir="${packages.dir}"/>
-    <delete dir="${ivy.package-retrieve-dir}"/>
-    <mkdir dir="${ivy.package-retrieve-dir}"/>
+  <macrodef name="retrieve-packages">
+    <sequential>
+      <delete dir="${packages.dir}"/>
+      <delete dir="${ivy.package-retrieve-dir}"/>
+      <mkdir dir="${ivy.package-retrieve-dir}"/>
       
-    <ivy:retrieve 
-      pattern="${ivy.package-retrieve-dir}/[artifact].[ext]" 
-      useOrigin="true" 
-      overwriteMode="different"
-      ivypattern="${ivy.ivy-retrieve-dir}/[organization]-[module]-[revision].ivy.xml"
-      type="package"
-    />
-
-  </target> 
+      <ivy:retrieve 
+        pattern="${ivy.package-retrieve-dir}/[artifact].[ext]" 
+        useOrigin="true" 
+        overwriteMode="different"
+        ivypattern="${ivy.ivy-retrieve-dir}/[organization]-[module]-[revision].ivy.xml"
+        type="package"
+      />
+    </sequential>
+  </macrodef> 
     
   <target 
     name="retrieve" 
-    depends="resolve,retrieve-lib,retrieve-package" 
-  	if="ivy.shouldRetrieve"
-  	description="Retrieve dependencies"
-  />
+    depends="configure"
+    if="ivy.shouldRetrieve"
+    description="Retrieve dependencies"
+    >
+    <resolve/>
+    <retrieve-libs/>
+    <retrieve-packages/>
+  </target>
+      
     
     
   
@@ -199,15 +213,9 @@ Unless otherwise agreed to in writing, this software is distributed on an
   </condition>
 
   
-  <target name="publish-local" 
+  <target name="publish-local"  depends="resolve"
      if="isIvy" 
     >
-    <ivy:resolve 
-      file="${basedir}/ivy.xml" 
-      refresh="true" 
-      resolveMode="dynamic"
-      conf="${ivy-resolve-conf}"
-    />    
     <ivy:publish 
       pubrevision="${buildVersion}" 
       resolver="cvs-${publish.resolver.type}" 

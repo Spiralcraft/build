@@ -38,6 +38,6 @@
 
 # Force ivy to resolve and retrieve all dependencies on every build
 #
-#ivy.shouldResolve=true
+#ivy.always-retrieve=false
 
 

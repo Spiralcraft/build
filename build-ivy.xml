@@ -133,6 +133,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
         <fileset dir="${ivy.lib-retrieve-dir}" includes="*.jar,*.zip"/>
       </delete>
       <delete dir="${ivy.ivy-retrieve-dir}"/>
+      <delete dir="${ivy.zip-retrieve-dir}"/>
         
       <if>
         <equals arg1="${ivy.retrieve-lib}" arg2="true"/>
@@ -192,13 +193,23 @@ Unless otherwise agreed to in writing, this software is distributed on an
     name="retrieve" 
     depends="configure"
     if="ivy.shouldRetrieve"
-    description="Retrieve dependencies"
     >
     <resolve/>
     <retrieve-libs/>
     <retrieve-packages/>
   </target>
+
+  <target
+    name="update-deps"
+    depends="configure"
+    if="isIvy"
+    description="Update all dependencies"
+    >
       
+    <resolve/>
+    <retrieve-libs/>
+    <retrieve-packages/>
+  </target>
     
     
   

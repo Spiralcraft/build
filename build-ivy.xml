@@ -250,7 +250,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
     <ivy:info file="${ivy.dependency.path}" property="ivy.dependency"/>
     <ivy:install 
       module="${ivy.dependency.module}" 
-      from="cvs-${publish.resolver.type}" 
+      from="${ivy-resolver}" 
       to="sandbox-${publish.resolver.type}" 
       organisation="${ivy.dependency.organisation}" 
       revision="${ivy.dependency.revision}" 
@@ -288,7 +288,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
     depends="resolve"
     >
     <ivy:install 
-      from="${ivy-resolver}" 
+      from="cvs-${publish.resolver.type}" 
       to="release-snapshot-${publish.resolver.type}" 
       organisation="${organization}"
       module="${module}"

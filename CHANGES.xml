@@ -3,6 +3,33 @@
   >
   
   <scm:Change>
+    <date>2013-11-09
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Optional target to install all dependencies to [sandbox]/repo
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build-common.xml
+      </URI>      
+      <URI>build-ivy.xml
+      </URI>      
+      <URI>build.xml
+      </URI>      
+      <URI>ivy.settings.xml
+      </URI>      
+      <URI>ivy.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+
+  <scm:Change>
     <date>2013-11-08
     </date>
     

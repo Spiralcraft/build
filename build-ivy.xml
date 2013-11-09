@@ -31,17 +31,6 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <condition property="isIvy">
     <available file="ivy.xml"/>
   </condition>
-  
-  <condition 
-    property="ivySettings" 
-    value="${common-build.dir}/ivy.lunt.settings.xml"
-    >
-    <and>
-      <isset property="isIvy"/>
-      <isset property="artifactsDir"/>
-    </and>
-      
-  </condition>
   	
   <condition
     property="ivySettings"
@@ -240,11 +229,36 @@ Unless otherwise agreed to in writing, this software is distributed on an
       <artifacts pattern="${zip.dir}/[artifact]-${buildVersion}.zip"/>
       <artifacts pattern="${zip.dir}/[artifact]-${buildVersion}.xpi"/>
     </ivy:publish>
-      
+
     <delete file="${lib.output.path}/ivy.xml"/>
   	
   </target>
     
+  <target name="install-dependencies" description="Install dependencies to local repository">
+
+    <foreach param="ivy.dependency.path" target="install-dependency" inheritall="true">
+      <path>
+        <fileset dir="${ivy.ivy-retrieve-dir}" includes="*.ivy.xml"/>
+      </path>
+    </foreach>
+            
+  </target>
+    
+  <target name="install-dependency">
+    <echo message="${ivy.dependency.path}"/>
+    
+    <ivy:info file="${ivy.dependency.path}" property="ivy.dependency"/>
+    <ivy:install 
+      module="${ivy.dependency.module}" 
+      from="cvs-${publish.resolver.type}" 
+      to="sandbox-${publish.resolver.type}" 
+      organisation="${ivy.dependency.organisation}" 
+      revision="${ivy.dependency.revision}" 
+      overwrite="true" 
+      transitive="false"
+    />   
+  </target>
+  
   <target 
     name="release-upstream" 
     depends="publish-local" 

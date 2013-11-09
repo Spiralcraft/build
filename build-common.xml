@@ -29,6 +29,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <property name="resolve-target-root-dir" value="${basedir}"/>
   	
   <property name="depends.dir" value="${common-build.dir}/../depends"/>
+  <property name="repo.dir" value="${common-build.dir}/../repo"/>
 
   <property name="source.dir" value="source"/>
 

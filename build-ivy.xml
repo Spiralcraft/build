@@ -288,7 +288,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
     depends="resolve"
     >
     <ivy:install 
-      from="cvs-${publish.resolver.type}" 
+      from="${ivy-resolver}" 
       to="release-snapshot-${publish.resolver.type}" 
       organisation="${organization}"
       module="${module}"

@@ -248,25 +248,5 @@ Unless otherwise agreed to in writing, this software is distributed on an
     />
   </triggers>  
 
-  <modules>
-    <module organisation="net.sourceforge.htmlunit" resolver="maven"/>
-    <module organisation="xalan"  resolver="maven"/>
-    <module organisation="org.apache" name="apache" resolver="maven"/>
-    <module organisation="xml-apis" resolver="maven"/>
-    <module organisation="commons-collections" resolver="maven"/>
-    <module organisation="org.apache.commons" resolver="maven"/>
-    <module organisation="org.apache.httpcomponents" resolver="maven"/>
-    <module organisation="commons-codec" resolver="maven"/>
-    <module organisation="commons-logging" resolver="maven"/>
-    <module organisation="xerces" resolver="maven"/>
-    <module organisation="net.sourceforge.nekohtml" resolver="maven"/>
-    <module organisation="net.sourceforge.cssparser" resolver="maven"/>
-    <module organisation="commons-io" resolver="maven"/>
-    <module organisation="org.eclipse.jetty" resolver="maven"/>
-    <module organisation="org.sonatype.oss" resolver="maven"/>
-    <module organisation="org.w3c.css" resolver="maven"/>
-    <module organisation="com.stripe" resolver="maven"/>
-    
-  </modules>
 
 </ivysettings>

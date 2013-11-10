@@ -12,6 +12,9 @@
     <notes>
       <scm:Note>Optional target to install all dependencies to [sandbox]/repo
       </scm:Note>
+      <scm:Note>Remove specific modules now that we have a global resolver and
+        a way to install global modules to a local repo.
+      </scm:Note>
     </notes>
     
     <resources>   

@@ -40,18 +40,23 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <property name="zip.dir" value="zip"/>
     
   <property name="war.dir" value="war"/>
+    
   
   <property name="package-output-dir" value="${temp.basedir}/package-out"/> 
 
   <property name="spiralcraft.javac.target" value="1.6"/>
 
   <property name="spiralcraft.javac.source" value="1.6"/>
+
+  <property name="packages.dir" value="${resolve-target-root-dir}/packages"/>    
     
   <property name="ivy.lib-retrieve-dir" value="${resolve-target-root-dir}/lib"/>
     
   <property name="ivy.ivy-retrieve-dir" value="${resolve-target-root-dir}/lib/ivy"/>
     
   <property name="ivy.zip-retrieve-dir" value="${resolve-target-root-dir}/zip"/>
+ 
+  <property name="ivy.package-retrieve-dir" value="${packages.dir}"/>
     
   <property name="ivy.retrieve-lib" value="true"/>
   <property name="ivy.retrieve-zip" value="false"/>

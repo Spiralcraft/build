@@ -2,6 +2,32 @@
   xmlns:scm="class:/spiralcraft/scm/meta/"
   >
   
+
+  <scm:Change>
+    <date>2013-11-11
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Don't call package install from ivy trigger, just use ivy to
+        retrieve packages directly to packages directory.
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build-app.xml
+      </URI>      
+      <URI>build-common.xml
+      </URI>      
+      <URI>build-ivy.xml
+      </URI>      
+      <URI>ivy.settings.xml
+      </URI>            
+    </resources>
+  </scm:Change>
+
   <scm:Change>
     <date>2013-11-09
     </date>

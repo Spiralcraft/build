@@ -164,7 +164,6 @@ Unless otherwise agreed to in writing, this software is distributed on an
 
   <macrodef name="retrieve-packages">
     <sequential>
-      <delete dir="${packages.dir}"/>
       <delete dir="${ivy.package-retrieve-dir}"/>
       <mkdir dir="${ivy.package-retrieve-dir}"/>
       

@@ -4,6 +4,28 @@
   
 
   <scm:Change>
+    <date>2013-11-13
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Add post-retrieve target for builds to move artifacts to
+        specific locations.
+      </scm:Note>
+      <scm:Note>Always retrieve dependencies when ivy-resolver=default, because
+        the default repo will always be local.
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build-ivy.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
     <date>2013-11-11
     </date>
     

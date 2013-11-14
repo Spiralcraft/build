@@ -4,6 +4,25 @@
   
 
   <scm:Change>
+    <date>2013-11-14
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Add functionality to install remote dependencies to the
+        sandbox repo to minimize network dependency.
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build-ivy.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
     <date>2013-11-13
     </date>
     

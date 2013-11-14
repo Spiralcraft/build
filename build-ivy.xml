@@ -21,6 +21,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <property name="publish.resolver.type" value="jar"/>
   <property name="ivy-resolve-conf" value="${ivy.configurations}"/>
   <property name="ivy.package-retrieve-dir" value="${temp.basedir}/ivy-deps"/>
+  <property name="ivy-resolver" value="default"/>  
 
   <taskdef 
     resource="org/apache/ivy/ant/antlib.xml" 
@@ -55,19 +56,21 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <condition
     property="ivy.shouldRetrieve"
     >
-    <and>
-      <isset property="isIvy"/>
-      <or>
-        <isset property="ivy.always-retrieve"/>
-        <not>
-          <available file="${ivy.ivy-retrieve-dir}"/>
-        </not>
-      </or>
-    </and>
+    <or>
+      <and>
+        <isset property="isIvy"/>
+        <or>
+          <isset property="ivy.always-retrieve"/>
+          <not>
+            <available file="${ivy.ivy-retrieve-dir}"/>
+          </not>
+        </or>
+      </and>
+      <equals arg1="${ivy-resolver}" arg2="default"/>
+    </or>
   </condition>
   	
   <property name="ivySettings" value="${common-build.dir}/ivy.settings.xml"/>
-  <property name="ivy-resolver" value="default"/>  
   <property name="release-keyfile" location="${common-build.dir}/dummy_keyfile"/>  
   <property name="snapshot-keyfile" location="${common-build.dir}/dummy_keyfile"/>  
 
@@ -177,6 +180,12 @@ Unless otherwise agreed to in writing, this software is distributed on an
     </sequential>
   </macrodef> 
     
+    
+  <target
+    name="resolveAndRetrieve"
+    >
+  </target>
+      
   <target 
     name="retrieve" 
     depends="configure"
@@ -185,6 +194,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
     <resolve/>
     <retrieve-libs/>
     <retrieve-packages/>
+    <antcall target="post-retrieve"/>
   </target>
 
   <target
@@ -193,13 +203,14 @@ Unless otherwise agreed to in writing, this software is distributed on an
     if="isIvy"
     description="Update all dependencies"
     >
-      
     <resolve/>
     <retrieve-libs/>
     <retrieve-packages/>
+    <antcall target="post-retrieve"/>
   </target>
+      
     
-    
+  <target name="post-retrieve"/>
   
   <condition
     property="publish.overwrite"

@@ -1,0 +1,5 @@
+<project name="installDependencies" basedir=".." default="install">
+  <property name="ivy-resolver" value="spiralcraft-remote"/>
+  <import file="../build.xml"/>
+  <target name="install" depends="resolve,install-dependencies"/>
+</project>

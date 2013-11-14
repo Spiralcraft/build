@@ -22,6 +22,8 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <property name="ivy-resolve-conf" value="${ivy.configurations}"/>
   <property name="ivy.package-retrieve-dir" value="${temp.basedir}/ivy-deps"/>
   <property name="ivy-resolver" value="default"/>  
+  <property name="ivy-remote-resolver" value="spiralcraft-remote"/>
+  <property name="ivy-install-resolver" value="${ivy-remote-resolver}"/>
 
   <taskdef 
     resource="org/apache/ivy/ant/antlib.xml" 
@@ -244,31 +246,94 @@ Unless otherwise agreed to in writing, this software is distributed on an
   	
   </target>
     
-  <target name="install-dependencies" description="Install dependencies to local repository">
+  <target name="install-dependencies" depends="configure" 
+      description="Install dependencies to local repository"
+      >
 
-    <foreach param="ivy.dependency.path" target="install-dependency" inheritall="true">
+    <for param="ivy.dependency.path">
       <path>
         <fileset dir="${ivy.ivy-retrieve-dir}" includes="*.ivy.xml"/>
       </path>
-    </foreach>
+      <sequential>
+        <ivy:info file="@{ivy.dependency.path}" property="ivy.dependency"/>
+        <install-dependency 
+          path="@{ivy.dependency.path}"
+          organisation="${ivy.dependency.organisation}"
+          module="${ivy.dependency.module}"
+          revision="${ivy.dependency.revision}"
+        />
+      </sequential>
+    </for>
             
   </target>
     
-  <target name="install-dependency">
-    <echo message="${ivy.dependency.path}"/>
-    
-    <ivy:info file="${ivy.dependency.path}" property="ivy.dependency"/>
-    <ivy:install 
-      module="${ivy.dependency.module}" 
-      from="${ivy-resolver}" 
-      to="sandbox-${publish.resolver.type}" 
-      organisation="${ivy.dependency.organisation}" 
-      revision="${ivy.dependency.revision}" 
-      overwrite="true" 
-      transitive="false"
-    />   
-  </target>
-  
+  <macrodef name="install-dependency">
+    <attribute name="path"/>
+    <attribute name="depends.dir" default="${depends.dir}"/>
+    <attribute name="organisation"/>
+    <attribute name="module"/>
+    <attribute name="revision"/>
+    <attribute name="module.path" 
+        default="@{depends.dir}/@{organisation}/@{module}/@{revision}"
+    />
+    <attribute name="temp.path" 
+        default="${repo.dir}/@{organisation}/@{module}/@{revision}"
+    />
+    <sequential>
+      <echo message="Checking @{temp.path}"/>
+      <ivy:install 
+        module="@{module}" 
+        from="${ivy-install-resolver}" 
+        to="sandbox-${publish.resolver.type}" 
+        organisation="@{organisation}" 
+        revision="@{revision}" 
+        overwrite="true" 
+        transitive="false"
+      />
+
+      <ivy:info file="@{temp.path}/ivy.xml" property="ivy.remote-dep"/>
+        
+      <if>
+        <not>
+          <available file="@{module.path}"/>
+        </not>
+        <then>
+          <echo message="New: @{module.path}"/>
+          <copy todir="@{module.path}"
+            failonerror="false"
+            preservelastmodified="true"
+            overwrite="true"
+            >
+            <fileset dir="@{temp.path}"/>
+          </copy>
+        </then>
+        <else>
+          <if>
+            <not>
+              <equals arg1="${ivy.remote-dep.publication}" arg2="${ivy.dependency.publication}"/>
+            </not>
+            <then>
+              <echo message="Updated: @{module.path} (${ivy.remote-dep.publication} != ${ivy.dependency.publication})"/>
+              <copy todir="@{module.path}"
+                failonerror="false"
+                preservelastmodified="true"
+                overwrite="true"
+                >
+                <fileset dir="@{temp.path}"/>
+              </copy>
+            </then>
+            <else>
+              <echo message="Skipping: @{module.path}"/>
+            </else>
+          </if>
+        </else>
+      </if>
+     
+        
+    </sequential>
+      
+  </macrodef>
+
   <target 
     name="release-upstream" 
     depends="publish-local" 

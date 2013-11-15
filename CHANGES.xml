@@ -3,6 +3,31 @@
   >
   
   <scm:Change>
+    <date>2013-11-15
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Add mechanisms to handle milestone and release status, check
+        dependencies to ensure that status of dependencies is compatible
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build.xml
+      </URI>      
+      <URI>build-ivy.xml
+      </URI>      
+      <URI>build-common.xml
+      </URI>      
+      <URI>ivy-settings.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
     <date>2013-11-14
     </date>
     

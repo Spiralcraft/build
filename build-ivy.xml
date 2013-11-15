@@ -24,6 +24,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <property name="ivy-resolver" value="default"/>  
   <property name="ivy-remote-resolver" value="spiralcraft-remote"/>
   <property name="ivy-install-resolver" value="${ivy-remote-resolver}"/>
+  <property name="ivy.status" value="${build.status}"/>
 
   <taskdef 
     resource="org/apache/ivy/ant/antlib.xml" 
@@ -95,22 +96,34 @@ Unless otherwise agreed to in writing, this software is distributed on an
   </target>
 
     
-  <target name="configure" unless="ivy-configured">
-    <echo>ivy-resolver: ${ivy-resolver}</echo>
-    <ivy:configure file="${ivySettings}"/> 
-    <property name="ivy-configured" value="true"/>
-  </target>
+  <macrodef name="configure">
+    <attribute name="resolver" default="${ivy-resolver}"/>
+    <sequential>
+      
+      <if>
+        <not>
+          <isset property="ivy-configured"/>
+        </not>
+        <then>
+          <echo>ivy-resolver: ${ivy-resolver}</echo>
+          <ivy:configure file="${ivySettings}"/> 
+          <property name="ivy-configured" value="true"/>
+        </then>
+      </if>
+    </sequential>
+  </macrodef>
     
   <target name="resolve" 
-    depends="configure"
     unless="ivy-resolved"
     >
+    <configure/>
     <resolve/>
   </target>
 	
     
   <macrodef name="resolve">
     <sequential>
+      <echo message="Resolving for status ${ivy.status}"/>
       <ivy:resolve 
         file="${basedir}/ivy.xml" 
         refresh="true" 
@@ -191,24 +204,26 @@ Unless otherwise agreed to in writing, this software is distributed on an
       
   <target 
     name="retrieve" 
-    depends="configure"
     if="ivy.shouldRetrieve"
     >
+    <configure/>
     <resolve/>
     <retrieve-libs/>
     <retrieve-packages/>
+    <check-dependencies/>
     <antcall target="post-retrieve"/>
   </target>
 
   <target
     name="update-deps"
-    depends="configure"
     if="isIvy"
     description="Update all dependencies"
     >
+    <configure/>
     <resolve/>
     <retrieve-libs/>
     <retrieve-packages/>
+    <check-dependencies/>
     <antcall target="post-retrieve"/>
   </target>
       
@@ -226,31 +241,88 @@ Unless otherwise agreed to in writing, this software is distributed on an
   </condition>
 
   
-  <target name="publish-local"  depends="resolve"
-     if="isIvy" 
-    >
-    <ivy:publish 
-      pubrevision="${buildVersion}" 
-      resolver="cvs-${publish.resolver.type}" 
-      overwrite="${publish.overwrite}"
-      forcedeliver="true"
-      srcivypattern="${lib.output.path}/ivy.xml"
-      >
+  <macrodef name="publish-local">
+    <sequential>
+      <configure/>
+      <resolve/>
+      <ivy:info
+        organisation="${organization}"
+        module="${module}"
+        revision="${buildVersion}"
+        property="curr"
+      />
+      <if>
+        <or>
+          <not>
+            <isset property="curr.status"/>
+          </not>
+          <equals arg1="${curr.status}" arg2="integration"/>
+        </or>
+        <then>
+          <ivy:publish 
+            pubrevision="${buildVersion}" 
+            resolver="cvs-${publish.resolver.type}" 
+            overwrite="${publish.overwrite}"
+            forcedeliver="true"
+            srcivypattern="${lib.output.path}/ivy.xml"
+            status="${build.status}"
+            >
 
-      <artifacts pattern="${package-output-dir}/[artifact]-${buildVersion}.zip"/>
-      <artifacts pattern="${lib.output.path}/[artifact].jar"/>
-      <artifacts pattern="${zip.dir}/[artifact]-${buildVersion}.zip"/>
-      <artifacts pattern="${zip.dir}/[artifact]-${buildVersion}.xpi"/>
-    </ivy:publish>
+            <artifacts pattern="${package-output-dir}/[artifact]-${buildVersion}.zip"/>
+            <artifacts pattern="${lib.output.path}/[artifact].jar"/>
+            <artifacts pattern="${zip.dir}/[artifact]-${buildVersion}.zip"/>
+            <artifacts pattern="${zip.dir}/[artifact]-${buildVersion}.xpi"/>
+          </ivy:publish>
 
-    <delete file="${lib.output.path}/ivy.xml"/>
+          <delete file="${lib.output.path}/ivy.xml"/>
+        </then>
+        <else>
+          <echo message="Not overwriting revision ${curr.revision} in status ${curr.status}"/>
+        </else>
+      </if>
+    </sequential>
   	
-  </target>
+  </macrodef>
     
-  <target name="install-dependencies" depends="configure" 
-      description="Install dependencies to local repository"
-      >
-
+  <macrodef name="check-dependencies">
+    <sequential>
+      <echo message="Checking compatibility with status ${ivy.status}"/>
+      <for param="ivy.dependency.path">
+        <path>
+          <fileset dir="${ivy.ivy-retrieve-dir}" includes="*.ivy.xml"/>
+        </path>
+        <sequential>
+          <ivy:info file="@{ivy.dependency.path}" property="ivy.dependency"/>
+          <if>
+            <and>
+              <not>
+                <equals arg1="${ivy.status}" arg2="integration"/>
+              </not>
+              <and>
+                <not>
+                  <equals arg1="${ivy.dependency.status}" arg2="${ivy.status}"/>
+                </not>
+                <not>
+                  <equals arg1="${ivy.dependency.status}" arg2="release"/>
+                </not>
+              </and>
+            </and>
+            <then>
+              <fail message="Project with status=${ivy.status} cannot depend on ${ivy.dependency.organisation}-${ivy.dependency.module}-${ivy.dependency.revision} ${ivy.dependency.status}"/>
+            </then>
+            <else>
+              <echo message="Checked ${ivy.dependency.organisation}-${ivy.dependency.module}-${ivy.dependency.revision} ${ivy.dependency.status}"/>
+            </else>
+          </if>
+        </sequential>
+      </for>
+    </sequential>            
+  </macrodef>
+    
+  <target name="install-dependencies" 
+    description="Install dependencies to local repository"
+    >
+    <configure/>
     <for param="ivy.dependency.path">
       <path>
         <fileset dir="${ivy.ivy-retrieve-dir}" includes="*.ivy.xml"/>
@@ -335,63 +407,46 @@ Unless otherwise agreed to in writing, this software is distributed on an
       
   </macrodef>
 
-  <target 
+  <macrodef 
     name="release-upstream" 
-    depends="publish-local" 
-    if="isIvy"
     >
-      
-    <ivy:install 
-      from="cvs-${publish.resolver.type}" 
-      to="release-upstream-${publish.resolver.type}" 
-      organisation="${organization}"
-      module="${module}"
-      revision="${buildVersion}"
-    />
-  </target>
+    <sequential>
+      <ivy:install 
+        from="cvs-${publish.resolver.type}" 
+        to="release-upstream-${publish.resolver.type}" 
+        organisation="${organization}"
+        module="${module}"
+        revision="${buildVersion}"
+      />
+    </sequential>
+  </macrodef>
 
-  <target 
-    name="publish-snapshot" 
-    depends="publish-local,install-snapshot" 
-    if="isIvy" 
-    >
-        
-  </target>
-   
-  <target 
-    name="publish-stable" 
-    depends="publish-local,install-stable" 
-    if="isIvy" 
-    >
-        
-  </target>
-
-  <target
+  <macrodef
     name="install-snapshot"
-    description="install local release to snapshot repo"
-    depends="resolve"
     >
-    <ivy:install 
-      from="cvs-${publish.resolver.type}" 
-      to="release-snapshot-${publish.resolver.type}" 
-      organisation="${organization}"
-      module="${module}"
-      revision="${buildVersion}"
-      overwrite="true"
-    />
-  </target>
+    <sequential>
+      <ivy:install 
+        from="cvs-${publish.resolver.type}" 
+        to="release-snapshot-${publish.resolver.type}" 
+        organisation="${organization}"
+        module="${module}"
+        revision="${buildVersion}"
+        overwrite="true"
+      />
+    </sequential>
+  </macrodef>
 
-  <target
+  <macrodef
     name="install-stable"
-    description="install local release to stable repo"
-    depends="resolve"
     >
-    <ivy:install 
-      from="cvs-${publish.resolver.type}" 
-      to="release-stable-${publish.resolver.type}" 
-      organisation="${organization}"
-      module="${module}"
-      revision="${buildVersion}"
-    />
-  </target>
+    <sequential>
+      <ivy:install 
+        from="cvs-${publish.resolver.type}" 
+        to="release-stable-${publish.resolver.type}" 
+        organisation="${organization}"
+        module="${module}"
+        revision="${buildVersion}"
+      />
+    </sequential>
+  </macrodef>
 </project>

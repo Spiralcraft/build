@@ -22,7 +22,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <property name="ivy-resolve-conf" value="${ivy.configurations}"/>
   <property name="ivy.package-retrieve-dir" value="${temp.basedir}/ivy-deps"/>
   <property name="ivy-resolver" value="default"/>  
-  <property name="ivy-remote-resolver" value="spiralcraft-remote"/>
+  <property name="ivy-remote-resolver" value="spiralcraft-release"/>
   <property name="ivy-install-resolver" value="${ivy-remote-resolver}"/>
   <property name="ivy.status" value="${build.status}"/>
 

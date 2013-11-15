@@ -181,20 +181,12 @@ Unless otherwise agreed to in writing, this software is distributed on an
     </chain>
 
     <chain name="spiralcraft-release">
-      <resolver ref="public-chain"/>
       <resolver ref="cvs"/>
+      <resolver ref="public-chain"/>
       <resolver ref="global"/>
     </chain>
-    
+
     <chain name="spiralcraft-snapshot">
-      <resolver ref="public-chain"/>
-      <resolver ref="spiralcraft-snapshot-chain"/>
-      <resolver ref="cvs"/>
-      <resolver ref="global"/>
-    </chain>
-
-
-    <chain name="spiralcraft-remote">
       <resolver ref="cvs"/>
       <resolver ref="spiralcraft-snapshot-chain"/>
       <resolver ref="public-chain"/>

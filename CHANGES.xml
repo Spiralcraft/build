@@ -10,6 +10,24 @@
     </authorId>
     
     <notes>
+      <scm:Note>Don't publish integration build to stable repo
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build-common.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2013-11-15
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
       <scm:Note>Make default remote resolver non-snapshot resolver for stability
       </scm:Note>
     </notes>

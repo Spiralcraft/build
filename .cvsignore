@@ -6,3 +6,4 @@ ivy.settings-local.xml
 ivy-local.settings.xml
 lib
 bin
+packages

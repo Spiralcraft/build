@@ -489,10 +489,17 @@ Unless otherwise agreed to in writing, this software is distributed on an
     depends="build-ivy.publish-snapshot"
     description="Export artifacts to the remote snapshot repository"
   />
+
+  <target name="export-release"
+    depends="build-ivy.publish-stable"
+    description="Export artifacts for public release (permanent)"
+    >
+        
+  </target>
     
-  <target name="release"
+  <target name="release-product"
     depends="build-ivy.release-upstream"
-    description="Release artifacts to the the remote distribution repository (permanent)"
+    description="Release packaged products to the the remote distribution repository (permanent)"
     >
     
   </target>

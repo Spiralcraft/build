@@ -357,6 +357,14 @@ Unless otherwise agreed to in writing, this software is distributed on an
         
   </target>
    
+  <target 
+    name="publish-stable" 
+    depends="publish-local,install-stable" 
+    if="isIvy" 
+    >
+        
+  </target>
+
   <target
     name="install-snapshot"
     description="install local release to snapshot repo"
@@ -372,4 +380,17 @@ Unless otherwise agreed to in writing, this software is distributed on an
     />
   </target>
 
+  <target
+    name="install-stable"
+    description="install local release to stable repo"
+    depends="resolve"
+    >
+    <ivy:install 
+      from="cvs-${publish.resolver.type}" 
+      to="release-stable-${publish.resolver.type}" 
+      organisation="${organization}"
+      module="${module}"
+      revision="${buildVersion}"
+    />
+  </target>
 </project>

@@ -22,7 +22,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <property name="sandbox" value="${ivy.settings.dir}/.."/>
   <property name="cvsdepends" value="${depends.dir}"/>
   <property name="localdepends" value="${repo.dir}"/>
-  <property name="public-repo" value="http://publish.spiralcraft.com/repo"/>
+  <property name="public-repo" value="http://publish.spiralcraft.com/stable"/>
   <property name="public-snapshot-repo" value="http://publish.spiralcraft.com/snapshot"/>
   <property name="ivy.localcache.ttl" value="1s"/>
 
@@ -201,7 +201,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
       <resolver ref="global"/>
     </chain>
     
-        
+    <!--  Resolvers for publishing -->
     <sftp name="release-upstream-jar" keyFile="${release-keyfile}">
       <ivy 
         pattern="${release-ftp-path}/[organisation]/[module]/[revision]/ivy.xml"
@@ -235,7 +235,23 @@ Unless otherwise agreed to in writing, this software is distributed on an
       />
     </sftp>
 
-
+    <sftp name="release-stable-jar" keyFile="${stable-keyfile}">
+      <ivy 
+        pattern="${stable-ftp-path}/[organisation]/[module]/[revision]/ivy.xml"
+      />
+      <artifact 
+        pattern="${stable-ftp-path}/[organisation]/[module]/[revision]/[artifact].[ext]" 
+      />
+    </sftp>
+    <sftp name="release-stable-distrib" keyFile="${stable-keyfile}">
+      <ivy 
+        pattern="${stable-ftp-path}/[organisation]/[module]/[revision]/ivy.xml"
+      />
+      <artifact 
+        pattern="${stable-ftp-path}/[organisation]/[module]/[revision]/[artifact]-[revision].zip" 
+      />
+    </sftp>
+    <!--  /resolvers for publishing -->
       
   </resolvers>    
 

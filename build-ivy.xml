@@ -74,6 +74,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
   	
   <property name="ivySettings" value="${common-build.dir}/ivy.settings.xml"/>
   <property name="release-keyfile" location="${common-build.dir}/dummy_keyfile"/>  
+  <property name="stable-keyfile" location="${common-build.dir}/dummy_keyfile"/>  
   <property name="snapshot-keyfile" location="${common-build.dir}/dummy_keyfile"/>  
 
   <target name="cleanIvyRemoteCache" if="ivy-cleanRemoteCache">

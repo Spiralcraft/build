@@ -287,36 +287,41 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <macrodef name="check-dependencies">
     <sequential>
       <echo message="Checking compatibility with status ${ivy.status}"/>
-      <for param="ivy.dependency.path">
-        <path>
-          <fileset dir="${ivy.ivy-retrieve-dir}" includes="*.ivy.xml"/>
-        </path>
-        <sequential>
-          <ivy:info file="@{ivy.dependency.path}" property="ivy.dependency"/>
-          <if>
-            <and>
-              <not>
-                <equals arg1="${ivy.status}" arg2="integration"/>
-              </not>
-              <and>
-                <not>
-                  <equals arg1="${ivy.dependency.status}" arg2="${ivy.status}"/>
-                </not>
-                <not>
-                  <equals arg1="${ivy.dependency.status}" arg2="release"/>
-                </not>
-              </and>
-            </and>
-            <then>
-              <fail message="Project with status=${ivy.status} cannot depend on ${ivy.dependency.organisation}-${ivy.dependency.module}-${ivy.dependency.revision} ${ivy.dependency.status}"/>
-            </then>
-            <else>
-              <echo message="Checked ${ivy.dependency.organisation}-${ivy.dependency.module}-${ivy.dependency.revision} ${ivy.dependency.status}"/>
-            </else>
-          </if>
-        </sequential>
-      </for>
-    </sequential>            
+      <if>
+        <available file="${ivy.ivy-retrieve-dir}"/>
+        <then>
+          <for param="ivy.dependency.path">
+            <path>
+              <fileset dir="${ivy.ivy-retrieve-dir}" includes="*.ivy.xml"/>
+            </path>
+            <sequential>
+              <ivy:info file="@{ivy.dependency.path}" property="ivy.dependency"/>
+              <if>
+                <and>
+                  <not>
+                    <equals arg1="${ivy.status}" arg2="integration"/>
+                  </not>
+                  <and>
+                    <not>
+                      <equals arg1="${ivy.dependency.status}" arg2="${ivy.status}"/>
+                    </not>
+                    <not>
+                      <equals arg1="${ivy.dependency.status}" arg2="release"/>
+                    </not>
+                  </and>
+                </and>
+                <then>
+                  <fail message="Project with status=${ivy.status} cannot depend on ${ivy.dependency.organisation}-${ivy.dependency.module}-${ivy.dependency.revision} ${ivy.dependency.status}"/>
+                </then>
+                <else>
+                  <echo message="Checked ${ivy.dependency.organisation}-${ivy.dependency.module}-${ivy.dependency.revision} ${ivy.dependency.status}"/>
+                </else>
+              </if>
+            </sequential>
+          </for>
+        </then>
+      </if>
+    </sequential>
   </macrodef>
     
   <target name="install-dependencies" 

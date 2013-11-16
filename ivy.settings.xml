@@ -32,6 +32,8 @@ Unless otherwise agreed to in writing, this software is distributed on an
     <cache name="localcache" basedir="${cvsdepends}/.ivycache" useOrigin="true">
       <ttl duration="${ivy.localcache.ttl}" />
     </cache>
+    <cache name="snapshotcache" basedir="${cvsdepends}/.ivysnapshotcache" defaultTTL="1s">
+    </cache>    
     <cache name="remotecache" basedir="${cvsdepends}/.ivyremotecache" defaultTTL="1h">
     </cache>    
     <cache name="stablecache" basedir="${cvsdepends}/.ivystablecache" defaultTTL="24h">
@@ -133,10 +135,11 @@ Unless otherwise agreed to in writing, this software is distributed on an
     
     <chain name="spiralcraft-snapshot-chain"
       dual="true"
+      cache="snapshotcache"
       >
       <url name="spiralcraft-snapshot-jar" 
         latest="latest-revision" 
-        cache="remotecache"
+        cache="snapshotcache"
         checkmodified="true"
         changingPattern=".*"
         >
@@ -150,7 +153,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
       </url>
       <url name="spiralcraft-snapshot-distrib" 
         latest="latest-revision" 
-        cache="remotecache"
+        cache="snapshotcache"
         checkmodified="true"
         changingPattern=".*"
         >
@@ -180,14 +183,12 @@ Unless otherwise agreed to in writing, this software is distributed on an
       <resolver ref="maven"/>
     </chain>
 
-    <chain name="spiralcraft-release">
-      <resolver ref="cvs"/>
+    <chain name="spiralcraft-release" cache="remotecache">
       <resolver ref="public-chain"/>
       <resolver ref="global"/>
     </chain>
 
-    <chain name="spiralcraft-snapshot">
-      <resolver ref="cvs"/>
+    <chain name="spiralcraft-snapshot" cache="snapshotcache">
       <resolver ref="spiralcraft-snapshot-chain"/>
       <resolver ref="public-chain"/>
       <resolver ref="global"/>

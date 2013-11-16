@@ -33,7 +33,12 @@ Unless otherwise agreed to in writing, this software is distributed on an
   />
   
   <condition property="isIvy">
-    <available file="ivy.xml"/>
+    <or>
+      <available file="ivy.xml"/>
+      <available file="ivy.settings.xml"/>
+      <available file="ivy-local.settings.xml"/>
+    </or>
+      
   </condition>
   	
   <condition
@@ -95,7 +100,46 @@ Unless otherwise agreed to in writing, this software is distributed on an
     <delete dir="${ivy.package-retrieve-dir}"/>
   </target>
 
+  <macrodef name="cleanDefaultCache">
+    <sequential>
+      <if>
+        <available file="${depends.dir}/.ivycache"/>
+        <then>
+          <delete dir="${depends.dir}/.ivycache"/>
+        </then>
+      </if>
+    </sequential>
+  </macrodef>
     
+  <macrodef name="cleanAllCaches">
+    <sequential>
+      <if>
+        <available file="${depends.dir}/.ivycache"/>
+        <then>
+          <delete dir="${depends.dir}/.ivycache"/>
+        </then>
+      </if>
+      <if>
+        <available file="${depends.dir}/.ivyremotecache"/>
+        <then>
+          <delete dir="${depends.dir}/.ivyremotecache"/>
+        </then>
+      </if>
+      <if>
+        <available file="${depends.dir}/.ivysnaphotcache"/>
+        <then>
+          <delete dir="${depends.dir}/.ivysnapshotcache"/>
+        </then>
+      </if>
+      <if>
+        <available file="${depends.dir}/.ivystablecache"/>
+        <then>
+          <delete dir="${depends.dir}/.ivystablecache"/>
+        </then>
+      </if>
+    </sequential>
+  </macrodef>
+
   <macrodef name="configure">
     <attribute name="resolver" default="${ivy-resolver}"/>
     <sequential>
@@ -220,6 +264,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
     description="Update all dependencies"
     >
     <configure/>
+    <cleanAllCaches/>
     <resolve/>
     <retrieve-libs/>
     <retrieve-packages/>
@@ -323,94 +368,6 @@ Unless otherwise agreed to in writing, this software is distributed on an
       </if>
     </sequential>
   </macrodef>
-    
-  <target name="install-dependencies" 
-    description="Install dependencies to local repository"
-    >
-    <configure/>
-    <for param="ivy.dependency.path">
-      <path>
-        <fileset dir="${ivy.ivy-retrieve-dir}" includes="*.ivy.xml"/>
-      </path>
-      <sequential>
-        <ivy:info file="@{ivy.dependency.path}" property="ivy.dependency"/>
-        <install-dependency 
-          path="@{ivy.dependency.path}"
-          organisation="${ivy.dependency.organisation}"
-          module="${ivy.dependency.module}"
-          revision="${ivy.dependency.revision}"
-        />
-      </sequential>
-    </for>
-            
-  </target>
-    
-  <macrodef name="install-dependency">
-    <attribute name="path"/>
-    <attribute name="depends.dir" default="${depends.dir}"/>
-    <attribute name="organisation"/>
-    <attribute name="module"/>
-    <attribute name="revision"/>
-    <attribute name="module.path" 
-        default="@{depends.dir}/@{organisation}/@{module}/@{revision}"
-    />
-    <attribute name="temp.path" 
-        default="${repo.dir}/@{organisation}/@{module}/@{revision}"
-    />
-    <sequential>
-      <echo message="Checking @{temp.path}"/>
-      <ivy:install 
-        module="@{module}" 
-        from="${ivy-install-resolver}" 
-        to="sandbox-${publish.resolver.type}" 
-        organisation="@{organisation}" 
-        revision="@{revision}" 
-        overwrite="true" 
-        transitive="false"
-      />
-
-      <ivy:info file="@{temp.path}/ivy.xml" property="ivy.remote-dep"/>
-        
-      <if>
-        <not>
-          <available file="@{module.path}"/>
-        </not>
-        <then>
-          <echo message="New: @{module.path}"/>
-          <copy todir="@{module.path}"
-            failonerror="false"
-            preservelastmodified="true"
-            overwrite="true"
-            >
-            <fileset dir="@{temp.path}"/>
-          </copy>
-        </then>
-        <else>
-          <if>
-            <not>
-              <equals arg1="${ivy.remote-dep.publication}" arg2="${ivy.dependency.publication}"/>
-            </not>
-            <then>
-              <echo message="Updated: @{module.path} (${ivy.remote-dep.publication} != ${ivy.dependency.publication})"/>
-              <copy todir="@{module.path}"
-                failonerror="false"
-                preservelastmodified="true"
-                overwrite="true"
-                >
-                <fileset dir="@{temp.path}"/>
-              </copy>
-            </then>
-            <else>
-              <echo message="Skipping: @{module.path}"/>
-            </else>
-          </if>
-        </else>
-      </if>
-     
-        
-    </sequential>
-      
-  </macrodef>
 
   <macrodef 
     name="release-upstream" 
@@ -454,4 +411,60 @@ Unless otherwise agreed to in writing, this software is distributed on an
       />
     </sequential>
   </macrodef>
+    
+  <target name="update-repo">
+    <configure/>
+    <cleanAllCaches/>
+    <if>
+      <not>
+        <available file="modules.ant.xml"/>
+      </not>
+      <then>
+        <copy 
+          file="${common-build.dir}/resources/build/modules.ant.xml" 
+          todir="${basedir}"
+        />
+      </then>
+    </if>
+    
+    <ant antfile="modules.ant.xml" inheritall="true"/>
+      
+  </target>    
+    
+  <macrodef name="repo-inst">
+    <attribute name="org"/>
+    <attribute name="module"/>
+    <attribute name="rev"/>
+    <sequential>
+      <echo message="Updating @{org}#@{module};@{rev}"/>
+      <!--
+      <ivy:resolve 
+        conf="*" 
+        refresh="true"
+        inline="true"
+        keep="true"
+        organisation="@{org}"
+        module="@{module}"
+        revision="@{rev}"
+        changing="true"
+        transitive="false"
+      />
+      -->
+      <ivy:install from="${ivy-resolver}" to="sandbox-jar"
+        organisation="@{org}"
+        module="@{module}"
+        revision="@{rev}"
+        overwrite="true"
+        type="jar"
+      />
+      <ivy:install from="${ivy-resolver}" to="sandbox-distrib"
+        organisation="@{org}"
+        module="@{module}"
+        revision="@{rev}"
+        overwrite="true"
+        type="package"
+      />
+    </sequential>
+  </macrodef>
+    
 </project>

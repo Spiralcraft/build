@@ -65,6 +65,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
   
   <property name="build.status" value="integration"/>
     
+  
 
   <taskdef resource="net/sf/antcontrib/antlib.xml">
     <classpath>
@@ -90,6 +91,10 @@ Unless otherwise agreed to in writing, this software is distributed on an
 
   <condition property="isMac" value="true">
     <os family="mac" />
+  </condition>
+    
+  <condition property="isIntegration">
+    <equals arg1="${build.status}" arg2="integration"/>
   </condition>
     
     
@@ -491,6 +496,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <target 
     name="export-snapshot"
     description="Publish a public integration build"
+    if="isIntegration"
     >
     <publish-local/>
     <install-snapshot/>
@@ -498,6 +504,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
 
   <target name="export-release"
     description="Publish a public milestone build"
+    unless="isIntegration"
     >
     <publish-local/>
     <install-snapshot/>

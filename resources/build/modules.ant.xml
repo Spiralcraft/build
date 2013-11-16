@@ -1,0 +1,5 @@
+<project name="repo-modules" basedir=".">
+  
+  <repo-inst org="spiralcraft" module="core" rev="latest.milestone"/>
+
+</project>

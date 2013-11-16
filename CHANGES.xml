@@ -3,19 +3,23 @@
   >
   
   <scm:Change>
-    <date>2013-11-15
+    <date>2013-11-16
     </date>
     
     <authorId>miketoth
     </authorId>
     
     <notes>
-      <scm:Note>Don't publish integration build to stable repo
+      <scm:Note>Subsystem for maintaining local repository
       </scm:Note>
     </notes>
     
     <resources>   
       <URI>build-common.xml
+      </URI>      
+      <URI>build-ivy.xml
+      </URI>      
+      <URI>resources/build/modules.ant.xml
       </URI>      
     </resources>
   </scm:Change>
@@ -29,6 +33,8 @@
     
     <notes>
       <scm:Note>Make default remote resolver non-snapshot resolver for stability
+      </scm:Note>
+      <scm:Note>Snapshot resolver has a separate cache
       </scm:Note>
     </notes>
     

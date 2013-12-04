@@ -3,6 +3,46 @@
   >
   
   <scm:Change>
+    <date>2013-11-25
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Option to restrict repository refresh to a particular
+        organization.
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build-ivy.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
+    <date>2013-11-21
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Distinguish between packages, which are fully automated
+        resource libraries, and distributions, which are manipulated as
+        standard zip files.
+        
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build-common.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
     <date>2013-11-16
     </date>
     

@@ -221,11 +221,13 @@ Unless otherwise agreed to in writing, this software is distributed on an
 
   
 	
-  <target name="zip" depends="retrieve,build-app.zip">
+  <target name="zip" depends="retrieve,build-app.zip"
+    description="Build a distribution packaged in a .zip file"
+    >
   </target>
     
   <target name="pack" depends="build,build-app.pack"
-    description="Build and package distribution"
+    description="Build and pack a Spiralcraft package zip artifact"
   />
     
   <target name="copy-source" depends="retrieve">

@@ -228,7 +228,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <macrodef name="retrieve-packages">
     <sequential>
       <delete dir="${ivy.package-retrieve-dir}"/>
-      <mkdir dir="${ivy.package-retrieve-dir}"/>
+      <!-- <mkdir dir="${ivy.package-retrieve-dir}"/> -->
       
       <ivy:retrieve 
         pattern="${ivy.package-retrieve-dir}/[artifact].[ext]" 
@@ -436,34 +436,44 @@ Unless otherwise agreed to in writing, this software is distributed on an
     <attribute name="module"/>
     <attribute name="rev"/>
     <sequential>
-      <echo message="Updating @{org}#@{module};@{rev}"/>
-      <!--
-      <ivy:resolve 
-        conf="*" 
-        refresh="true"
-        inline="true"
-        keep="true"
-        organisation="@{org}"
-        module="@{module}"
-        revision="@{rev}"
-        changing="true"
-        transitive="false"
-      />
-      -->
-      <ivy:install from="${ivy-resolver}" to="sandbox-jar"
-        organisation="@{org}"
-        module="@{module}"
-        revision="@{rev}"
-        overwrite="true"
-        type="jar"
-      />
-      <ivy:install from="${ivy-resolver}" to="sandbox-distrib"
-        organisation="@{org}"
-        module="@{module}"
-        revision="@{rev}"
-        overwrite="true"
-        type="package"
-      />
+      <if>
+        <or>
+          <not>
+            <isset property="repo-inst.include.org"/>
+          </not>
+          <equals arg1="@{org}" arg2="${repo-inst.include.org}"/>  
+        </or>
+        <then>
+          <echo message="Updating @{org}#@{module};@{rev}"/>
+          <!--
+          <ivy:resolve 
+            conf="*" 
+            refresh="true"
+            inline="true"
+            keep="true"
+            organisation="@{org}"
+            module="@{module}"
+            revision="@{rev}"
+            changing="true"
+            transitive="false"
+          />
+          -->
+          <ivy:install from="${ivy-resolver}" to="sandbox-jar"
+            organisation="@{org}"
+            module="@{module}"
+            revision="@{rev}"
+            overwrite="true"
+            type="jar"
+          />
+          <ivy:install from="${ivy-resolver}" to="sandbox-distrib"
+            organisation="@{org}"
+            module="@{module}"
+            revision="@{rev}"
+            overwrite="true"
+            type="package"
+          />
+        </then>
+      </if>
     </sequential>
   </macrodef>
     

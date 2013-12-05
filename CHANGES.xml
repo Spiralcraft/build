@@ -3,6 +3,25 @@
   >
   
   <scm:Change>
+    <date>2013-12-05
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Fix restoreDataImage to delete target dir and not "data" dir
+        all the time.
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build-launch.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
     <date>2013-11-25
     </date>
     

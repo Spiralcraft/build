@@ -498,25 +498,34 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <target 
     name="export-snapshot"
     description="Publish a public integration build"
-    if="isIntegration"
     >
-    <publish-local/>
-    <install-snapshot/>
+    <if>
+      <equals arg1="${isIntegration}" arg2="true"/>
+      <then>
+        <publish-local/>
+        <install-snapshot/>
+      </then>
+      <else>
+        <fail message="Not publishing milestone to snapshot repo only"/>
+      </else>
+    </if>
   </target>
 
   <target name="export-release"
     description="Publish a public milestone build"
     unless="isIntegration"
     >
-    <publish-local/>
-    <install-snapshot/>
     <if>
-      <equals arg1="${ivy.status}" arg2="integration"/>
+      <not>
+        <equals arg1="${isIntegration}" arg2="true"/>
+      </not>
       <then>
-        <echo message="Not publishing integration build to stable repo"/>
+        <publish-local/>
+        <install-snapshot/>
+        <install-stable/>
       </then>
       <else>
-        <install-stable/>
+        <echo message="Not publishing integration build to stable repo"/>
       </else>
     </if>
   </target>

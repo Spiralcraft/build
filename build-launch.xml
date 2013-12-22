@@ -123,7 +123,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
     <attribute name="tag" default="${DSTAMP}-${TSTAMP}"/>
     <attribute name="prefix" default="data"/>
     <sequential>
-      <zip basedir="data" level="9" destfile="@{targetDir}/@{prefix}.@{tag}.zip"/>
+      <zip basedir="@{sourceDir}" level="9" destfile="@{targetDir}/@{prefix}.@{tag}.zip"/>
     </sequential>
   </macrodef>
     

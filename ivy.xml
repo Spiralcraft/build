@@ -33,6 +33,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
     <dependency org="apache" name="ant" rev="[1.8.1,)"/>
     <dependency org="apache" name="ant-contrib" rev="[1.0-b3,)"/>
     <dependency org="apache" name="ivy" rev="[2.2.0,)"/>
+    <dependency org="apache" name="ant-jsch" rev="[1.8.1,)"/>
     <dependency org="beanshell" name="bsh" rev="[2.0b4,)"/>
     <dependency org="jcraft" name="jsch" rev="[0.1.50,)"/>
   </dependencies>

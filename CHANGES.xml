@@ -1,7 +1,42 @@
 <scm:Change.list
   xmlns:scm="class:/spiralcraft/scm/meta/"
   >
+  <scm:Change>
+    <date>2013-12-21
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Add ant-jsch package
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>ivy.xml
+      </URI>      
+    </resources>
+  </scm:Change>
   
+  <scm:Change>
+    <date>2013-12-21
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>Fix makeDataImage target didn't use source dir parameter
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build-launch.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
   <scm:Change>
     <date>2013-12-05
     </date>

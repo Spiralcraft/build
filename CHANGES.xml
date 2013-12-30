@@ -2,6 +2,26 @@
   xmlns:scm="class:/spiralcraft/scm/meta/"
   >
   <scm:Change>
+    <date>2013-12-30
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>New target "release-module" combines now deprecated
+        export-snapshot, export-release targets and considers build.status
+        to determine where to install.
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build-common.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
     <date>2013-12-21
     </date>
     

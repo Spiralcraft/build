@@ -44,9 +44,9 @@ Unless otherwise agreed to in writing, this software is distributed on an
   
   <property name="package-output-dir" value="${temp.basedir}/package-out"/> 
 
-  <property name="spiralcraft.javac.target" value="1.6"/>
+  <property name="spiralcraft.javac.target" value="1.7"/>
 
-  <property name="spiralcraft.javac.source" value="1.6"/>
+  <property name="spiralcraft.javac.source" value="1.7"/>
 
   <property name="packages.dir" value="${resolve-target-root-dir}/packages"/>    
     

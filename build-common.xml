@@ -497,7 +497,6 @@ Unless otherwise agreed to in writing, this software is distributed on an
     
   <target 
     name="export-snapshot"
-    description="(deprecated- use release-module)"
     >
     <if>
       <equals arg1="${isIntegration}" arg2="true"/>
@@ -513,7 +512,6 @@ Unless otherwise agreed to in writing, this software is distributed on an
 
   <target name="export-release"
     unless="isIntegration"
-    description="(deprecated- use release-module)"
     >
     <if>
       <not>

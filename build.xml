@@ -15,16 +15,21 @@ Unless otherwise agreed to in writing, this software is distributed on an
 "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
 
 -->
-<project name="common-build" default="zip">
-  <property
-    name="common-build.dir" value="./"
-  />
+<project name="spiralcraft-build" default="zip">
+  <!-- Used to construct artifact names to build and publish -->
+  <property name="organization" value="spiralcraft" />
+     
+  <!-- Used in javadoc, copyright, etc. -->
+  <property name="organization-title" value="Spiralcraft, Inc." />
+
+  <!-- Dotted package name for your organization- eg. "org.myco" -->
+  <property name="organization-package.name" value="spiralcraft" />    
+  <property name="depends.dir" location="../../repo"/>
+  <property file="../../build.local/build.properties"/> 
     
-  <property name="organization" value="spiralcraft"/>
   <property name="module" value="build"/>
   <property name="buildVersion" value="0.4.17-dev1"/>
   <property name="build.status" value="integration"/>
-  <property name="depends.dir" location="../../depends" />
   <property name="repo.dir" location="../../repo" />
   <property name="zip.name" value="spiralcraft-build-${buildVersion}.zip"/>    
     
@@ -49,7 +54,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
     
   </fileset>      
     
-  <import file="build-spiralcraft-common.xml"/>
+  <import file="../../build/build-common.xml"/>
     
   
   

@@ -2,6 +2,77 @@
   xmlns:scm="class:/spiralcraft/scm/meta/"
   >
   <scm:Change>
+  
+    <revision>0.4.17
+    </revision>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <date>
+    </date>
+    
+            
+    <detail>
+      <scm:Change>
+        <revision>-dev1
+        </revision>
+        
+        <notes>
+          <scm:Note>Move to git and sandbox build
+          </scm:Note>
+        </notes>
+        
+        <resources>
+          <URI>build.xml
+          </URI>
+          <URI>build-common.xml
+          </URI>
+          <URI>ivy.xml
+          </URI>
+        </resources>
+      </scm:Change>
+
+      <scm:Change>
+        <revision>-dev1
+        </revision>
+        
+        <notes>
+          <scm:Note>Fix issues publishing and retrieving .tgz files
+          </scm:Note>
+        </notes>
+        
+        <resources>
+          <URI>build-ivy.xml
+          </URI>
+          <URI>ivy.settings.xml
+          </URI>
+        </resources>
+      </scm:Change>
+    </detail>
+  </scm:Change>
+  
+  <scm:Change>
+    <date>2013-12-30
+    </date>
+    
+    <authorId>miketoth
+    </authorId>
+    
+    <notes>
+      <scm:Note>New target "release-module" combines now deprecated
+        export-snapshot, export-release targets and considers build.status
+        to determine where to install.
+      </scm:Note>
+    </notes>
+    
+    <resources>   
+      <URI>build-common.xml
+      </URI>      
+    </resources>
+  </scm:Change>
+
+  <scm:Change>
     <date>2013-12-30
     </date>
     

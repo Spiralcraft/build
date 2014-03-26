@@ -1,0 +1,15 @@
+<project name="repo-modules" basedir=".">
+  <repo-inst org="spiralcraft" module="core" rev="[0.4.17-dev,0.4.18-dev["/>
+  <repo-inst org="spiralcraft" module="gui" rev="[0.4.17-dev,0.4.18-dev["/>
+  <repo-inst org="spiralcraft" module="ant" rev="[0.4.17-dev,0.4.18-dev["/>
+
+  <repo-inst org="apache" module="ant" rev="1.8.3"/>
+  <repo-inst org="apache" module="ant-jsch" rev="1.8.3"/>
+  <repo-inst org="apache" module="ivy" rev="2.3.0"/>
+  <repo-inst org="apache" module="ant-contrib" rev="1.0b3"/>
+
+  <repo-inst org="launch4j" module="launch4j" rev="3.2"/>
+  <repo-inst org="beanshell" module="bsh" rev="2.0b5"/>
+  <repo-inst org="jcraft" module="jsch" rev="0.1.50"/>
+
+</project>

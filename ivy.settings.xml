@@ -224,7 +224,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
         pattern="${snapshot-ftp-path}/[organisation]/[module]/[revision]/ivy.xml"
       />
       <artifact 
-        pattern="${snapshot-ftp-path}/[organisation]/[module]/[revision]/[artifact]-[revision].zip" 
+        pattern="${snapshot-ftp-path}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" 
       />
     </sftp>
 
@@ -241,7 +241,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
         pattern="${stable-ftp-path}/[organisation]/[module]/[revision]/ivy.xml"
       />
       <artifact 
-        pattern="${stable-ftp-path}/[organisation]/[module]/[revision]/[artifact]-[revision].zip" 
+        pattern="${stable-ftp-path}/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" 
       />
     </sftp>
     <!--  /resolvers for publishing -->

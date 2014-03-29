@@ -23,8 +23,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <dirname property="common-build.dir" file="${ant.file.build-common}" />
 
   <property file="${basedir}/build-local.properties"/>
-
-  <property file="${common-build.dir}/build-local.properties"/>
+  <property file="${common-build.dir}/../build.local/build.properties"/>
     
   <property name="resolve-target-root-dir" value="${basedir}"/>
   	
@@ -548,7 +547,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <target name="release-product"
     description="Release a packaged product to the the remote distribution repository (permanent)"
     >
-    <publish-local status="release"/>
+    <publish-local/>
     <release-upstream/>
     
   </target>

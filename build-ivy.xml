@@ -380,6 +380,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
         organisation="${organization}"
         module="${module}"
         revision="${buildVersion}"
+        overwrite="true"
       />
     </sequential>
   </macrodef>

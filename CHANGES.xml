@@ -19,6 +19,23 @@
         </revision>
         
         <notes>
+          <scm:Note>Fix issues with 'release-product' target 
+          </scm:Note>
+        </notes>
+        
+        <resources>
+          <URI>build.xml
+          </URI>
+          <URI>build-ivy.xml
+          </URI>
+        </resources>
+      </scm:Change>
+
+      <scm:Change>
+        <revision>-dev1
+        </revision>
+        
+        <notes>
           <scm:Note>Move to git and sandbox build
           </scm:Note>
         </notes>

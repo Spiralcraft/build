@@ -2,3 +2,4 @@ build-local.xml
 build-local.properties
 lib
 zip
+/tools

@@ -32,6 +32,14 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <property name="build.status" value="integration"/>
   <property name="repo.dir" location="../../repo" />
   <property name="zip.name" value="spiralcraft-build-${buildVersion}.zip"/>    
+  <property name="ivy.retrieve-zip" value="true"/>
+    
+  <target name="post-retrieve">
+    <mkdir dir="tools"/>
+    <copy file="zip/launch4j-macosx-x86.tgz" todir="tools"/>
+    <copy file="zip/launch4j-linux.tgz" todir="tools"/>
+    <copy file="zip/launch4j-win32.zip" todir="tools"/>
+  </target>
     
   <fileset id="zip.out" dir=".">
     <include name="build-common.xml"/>
@@ -51,26 +59,12 @@ Unless otherwise agreed to in writing, this software is distributed on an
     <include name="lib/ivy/*.xml"/>
     <include name="resources/**"/>
     <include name="manifest-template"/>
-    
+    <include name="tools/**"/>
   </fileset>      
     
   <import file="../../build/build-common.xml"/>
     
-  
-  
-  <target name="native-build" depends="retrieve,macl4j,winl4j,linuxl4j"/>
-    
-  <target name="macl4j" if="isMac">
-    <untar compression="gzip" src="${depends.dir}/launch4j/launch4j/3.0.2/launch4j-macosx.tgz" dest="zip"/>
-  </target>
-    
-  <target name="winl4j" if="isWindows">
-    <unzip src="${depends.dir}/launch4j/launch4j/3.0.2/launch4j-win32.zip" dest="zip"/>
-  </target>
 
-  <target name="linuxl4j" if="isLinux">
-    <untar compression="gzip" src="${depends.dir}/launch4j/launch4j/3.0.2/launch4j-linux.tgz" dest="zip"/>
-  </target>
   
 </project>
 

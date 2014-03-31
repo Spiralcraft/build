@@ -19,6 +19,25 @@
         </revision>
         
         <notes>
+          <scm:Note>Bundle launch4j
+          </scm:Note>
+        </notes>
+        
+        <resources>
+          <URI>build.xml
+          </URI>
+          <URI>build-native.xml
+          </URI>
+          <URI>ivy.xml
+          </URI>
+        </resources>
+      </scm:Change>
+    
+      <scm:Change>
+        <revision>-dev1
+        </revision>
+        
+        <notes>
           <scm:Note>Fix issues with 'release-product' target 
           </scm:Note>
         </notes>

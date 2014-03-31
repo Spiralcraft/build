@@ -35,16 +35,55 @@ Unless otherwise agreed to in writing, this software is distributed on an
         does not point to a launch4j install
     </echo>
   </target>
+    
+    
+  <target name="unpack-launch4j">
+    <if>
+      <not>
+        <available file="${common-build.dir}/tools/launch4j/launch4j.jar"/>
+      </not>
+      <then>
+        <if>
+          <equals arg1="${isWindows}" arg2="true"/>
+          <then>
+            <unzip 
+              src="${common-build.dir}/tools/launch4j-win32.zip" 
+              dest="${common-build.dir}/tools"
+            />
+          </then>
+        </if>
+        <if>
+          <equals arg1="${isMac}" arg2="true"/>
+          <then>
+            <untar compression="gzip" 
+              src="${common-build.dir}/tools/launch4j-macosx-x86.tgz" 
+              dest="${common-build.dir}/tools"
+            />
+          </then>
+        </if>
+        <if>
+          <equals arg1="${isLinux}" arg2="true"/>
+          <then>
+            <untar 
+              compression="gzip" 
+              src="${common-build.dir}/tools/launch4j-linux.tgz" 
+              dest="${common-build.dir}/tools"
+            />
+          </then>
+        </if>
+      </then>
+    </if>
+    <taskdef name="launch4j"
+      onerror="report"
+      classname="net.sf.launch4j.ant.Launch4jTask"
+      classpath="${common-build.dir}/tools/launch4j/launch4j.jar:${common-build.dir}/tools/launch4j/lib/xstream.jar"
+    /> 
+  </target>
       
   <target name="native-gui" depends="native-gui-windows,native-gui-mac"/>
     
   <target name="native-gui-windows" if="isWindows">
     <echo>Native Windows gui wrapper</echo>
-    <taskdef name="launch4j"
-      onerror="report"
-      classname="net.sf.launch4j.ant.Launch4jTask"
-      classpath="${common-build.dir}/zip/launch4j/launch4j.jar:${common-build.dir}/zip/launch4j/lib/xstream.jar"
-    />        
     <launch4j>
       <config
         headerType="gui"
@@ -67,11 +106,6 @@ Unless otherwise agreed to in writing, this software is distributed on an
 
   <target name="native-gui-mac" if="isMac" >
     <echo>Native Mac gui wrapper</echo>
-    <taskdef name="launch4j"
-      onerror="report"
-      classname="net.sf.launch4j.ant.Launch4jTask"
-      classpath="${common-build.dir}/zip/launch4j/launch4j.jar:${common-build.dir}/zip/launch4j/lib/xstream.jar"
-    />  
     <taskdef name="jarbundler" 
       classname="net.sourceforge.jarbundler.JarBundler"
       classpath="../../depends/sourceforge/jarbundler/2.2.0/jarbundler.jar"
@@ -90,11 +124,6 @@ Unless otherwise agreed to in writing, this software is distributed on an
  
   <target name="native-console-windows" if="isWindows">
     <echo>Native Windows console wrapper</echo>
-    <taskdef name="launch4j"
-      onerror="report"
-      classname="net.sf.launch4j.ant.Launch4jTask"
-      classpath="${common-build.dir}/zip/launch4j/launch4j.jar:${common-build.dir}/zip/launch4j/lib/xstream.jar"
-    />  
     <launch4j>
       <config
         headerType="console"
@@ -124,11 +153,6 @@ Unless otherwise agreed to in writing, this software is distributed on an
 
   <target name="native-console-mac" if="isMac">
     <echo>Native Mac console wrapper</echo>
-    <taskdef name="launch4j"
-      onerror="report"
-      classname="net.sf.launch4j.ant.Launch4jTask"
-      classpath="${common-build.dir}/zip/launch4j/launch4j.jar:${common-build.dir}/zip/launch4j/lib/xstream.jar"
-    />   	
     <launch4j>
       <config
         headerType="console"

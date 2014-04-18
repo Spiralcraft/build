@@ -37,6 +37,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
     <dependency org="beanshell" name="bsh" rev="[2.0b4,)"/>
     <dependency org="jcraft" name="jsch" rev="[0.1.50,)"/>
     <dependency org="launch4j" name="launch4j" rev="3.2u1"/>
+    <dependency org="sourceforge" name="jarbundler" rev="2.3.0"/>
   </dependencies>
 
 </ivy-module>

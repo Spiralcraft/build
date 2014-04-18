@@ -19,6 +19,21 @@
         </revision>
         
         <notes>
+          <scm:Note>Add jarbundler to dependencies
+          </scm:Note>
+        </notes>
+        
+        <resources>
+          <URI>ivy.xml
+          </URI>
+        </resources>
+      </scm:Change>
+
+      <scm:Change>
+        <revision>-dev1
+        </revision>
+        
+        <notes>
           <scm:Note>Bundle launch4j
           </scm:Note>
         </notes>

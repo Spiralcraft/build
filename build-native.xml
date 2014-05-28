@@ -108,7 +108,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
     <echo>Native Mac gui wrapper</echo>
     <taskdef name="jarbundler" 
       classname="net.sourceforge.jarbundler.JarBundler"
-      classpath="../../depends/sourceforge/jarbundler/2.2.0/jarbundler.jar"
+      classpath="${common-build.dir}/lib/jarbundler.jar"
     />    
       
     <jarbundler

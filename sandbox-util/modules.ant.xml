@@ -5,7 +5,7 @@
 
   <repo-inst org="apache" module="ant" rev="1.8.3"/>
   <repo-inst org="apache" module="ant-jsch" rev="1.8.3"/>
-  <repo-inst org="apache" module="ivy" rev="2.2.0u1"/>
+  <repo-inst org="apache" module="ivy" rev="[2.3.0,)"/>
   <repo-inst org="apache" module="ant-contrib" rev="1.0b3"/>
 
   <repo-inst org="launch4j" module="launch4j" rev="3.2u1"/>

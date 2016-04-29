@@ -28,8 +28,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <property file="../../build.local/build.properties"/> 
     
   <property name="module" value="build"/>
-  <property name="buildVersion" value="0.4.17-dev1"/>
-  <property name="build.status" value="integration"/>
+  <property file="version.properties"/>
   <property name="repo.dir" location="../../repo" />
   <property name="zip.name" value="spiralcraft-build-${buildVersion}.zip"/>    
   <property name="ivy.retrieve-zip" value="true"/>

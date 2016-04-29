@@ -195,7 +195,9 @@ Unless otherwise agreed to in writing, this software is distributed on an
     </chain>
     
     <!--  Resolvers for publishing -->
-    <sftp name="release-upstream-jar" keyFile="${release-keyfile}">
+    <sftp name="release-upstream-jar" 
+      keyFile="${release-keyfile}" keyFilePassword="${release-keypass}"
+      >
       <ivy 
         pattern="${release-ftp-path}/[organisation]/[module]/[revision]/ivy.xml"
       />
@@ -203,7 +205,9 @@ Unless otherwise agreed to in writing, this software is distributed on an
         pattern="${release-ftp-path}/[organisation]/[module]/[revision]/[artifact].[ext]" 
       />
     </sftp>
-    <sftp name="release-upstream-distrib" keyFile="${release-keyfile}">
+    <sftp name="release-upstream-distrib" 
+      keyFile="${release-keyfile}" keyFilePassword="${release-keypass}"
+      >
       <ivy 
         pattern="${release-ftp-path}/[organisation]/[module]/[revision]/ivy.xml"
       />
@@ -211,7 +215,9 @@ Unless otherwise agreed to in writing, this software is distributed on an
         pattern="${release-ftp-path}/[organisation]/[module]/[revision]/[artifact]-[revision].zip" 
       />
     </sftp>
-    <sftp name="release-snapshot-jar" keyFile="${snapshot-keyfile}">
+    <sftp name="release-snapshot-jar" 
+      keyFile="${snapshot-keyfile}" keyFilePassword="${snapshot-keypass}"
+      >
       <ivy 
         pattern="${snapshot-ftp-path}/[organisation]/[module]/[revision]/ivy.xml"
       />
@@ -219,7 +225,9 @@ Unless otherwise agreed to in writing, this software is distributed on an
         pattern="${snapshot-ftp-path}/[organisation]/[module]/[revision]/[artifact].[ext]" 
       />
     </sftp>
-    <sftp name="release-snapshot-distrib" keyFile="${snapshot-keyfile}">
+    <sftp name="release-snapshot-distrib" 
+      keyFile="${snapshot-keyfile}" keyFilePassword="${snapshot-keypass}"
+      >
       <ivy 
         pattern="${snapshot-ftp-path}/[organisation]/[module]/[revision]/ivy.xml"
       />
@@ -228,7 +236,9 @@ Unless otherwise agreed to in writing, this software is distributed on an
       />
     </sftp>
 
-    <sftp name="release-stable-jar" keyFile="${stable-keyfile}">
+    <sftp name="release-stable-jar" 
+      keyFile="${stable-keyfile}" keyFilePassword="${stable-keypass}"
+      >
       <ivy 
         pattern="${stable-ftp-path}/[organisation]/[module]/[revision]/ivy.xml"
       />
@@ -236,7 +246,9 @@ Unless otherwise agreed to in writing, this software is distributed on an
         pattern="${stable-ftp-path}/[organisation]/[module]/[revision]/[artifact].[ext]" 
       />
     </sftp>
-    <sftp name="release-stable-distrib" keyFile="${stable-keyfile}">
+    <sftp name="release-stable-distrib" 
+      keyFile="${stable-keyfile}" keyFilePassword="${stable-keypass}"
+      >
       <ivy 
         pattern="${stable-ftp-path}/[organisation]/[module]/[revision]/ivy.xml"
       />

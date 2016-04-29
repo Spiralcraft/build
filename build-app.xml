@@ -46,7 +46,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
       level="9"
       defaultExcludes="false"
       >
-      <fileset refid="zip.out"/>
+      <zipfileset refid="zip.out"/>
       <zipfileset refid="zip.exec.out"/>
       <exclude name="**/.svn/"/>
       <exclude name="**/CVS/"/>

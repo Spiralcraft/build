@@ -19,6 +19,28 @@
         </revision>
         
         <notes>
+          <scm:Note>Allow for extension of ivy-settings to include custom
+            repos
+          </scm:Note>
+        </notes>
+        
+        <resources>
+          <URI>ivy.common-settings.xml
+          </URI>
+          <URI>ivy.settings.xml
+          </URI>
+          <URI>build-ivy.xml
+          </URI>
+          <URI>build.xml
+          </URI>
+        </resources>
+      </scm:Change>
+
+      <scm:Change>
+        <revision>-dev1
+        </revision>
+        
+        <notes>
           <scm:Note>Add jarbundler to dependencies
           </scm:Note>
         </notes>

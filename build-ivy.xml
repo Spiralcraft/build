@@ -436,6 +436,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
     <attribute name="org"/>
     <attribute name="module"/>
     <attribute name="rev"/>
+    <attribute name="resolver" default="${ivy-resolver}"/>
     <sequential>
       <if>
         <or>
@@ -459,21 +460,21 @@ Unless otherwise agreed to in writing, this software is distributed on an
             transitive="false"
           />
           -->
-          <ivy:install from="${ivy-resolver}" to="sandbox-jar"
+          <ivy:install from="@{resolver}" to="sandbox-jar"
             organisation="@{org}"
             module="@{module}"
             revision="@{rev}"
             overwrite="true"
             type="jar"
           />
-          <ivy:install from="${ivy-resolver}" to="sandbox-distrib"
+          <ivy:install from="@{resolver}" to="sandbox-distrib"
             organisation="@{org}"
             module="@{module}"
             revision="@{rev}"
             overwrite="true"
             type="package"
           />
-          <ivy:install from="${ivy-resolver}" to="sandbox-distrib"
+          <ivy:install from="@{resolver}" to="sandbox-distrib"
             organisation="@{org}"
             module="@{module}"
             revision="@{rev}"

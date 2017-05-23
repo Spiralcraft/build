@@ -441,9 +441,16 @@ Unless otherwise agreed to in writing, this software is distributed on an
       <if>
         <or>
           <not>
-            <isset property="repo-inst.include.org"/>
+            <resourceexists>
+              <file file="${repo.dir}/@{org}/@{module}"/>
+            </resourceexists>
           </not>
-          <equals arg1="@{org}" arg2="${repo-inst.include.org}"/>  
+          <not>
+            <or>
+              <resourcecontains resource="${basedir}/repo-control.txt" substring="[@{org}.@{module}]*"/>
+              <resourcecontains resource="${basedir}/repo-control.txt" substring="[@{org}]*"/>
+            </or>
+          </not>
         </or>
         <then>
           <echo message="Updating @{org}#@{module};@{rev}"/>

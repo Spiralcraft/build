@@ -15,7 +15,23 @@
             
     <detail>
       <scm:Change>
-        <revision>-dev1
+        <revision>-dev2
+        </revision>
+        
+        <notes>
+          <scm:Note>Allow for control of repo updates to prevent repetitive
+            server checks.
+          </scm:Note>
+        </notes>
+        
+        <resources>
+          <URI>build-ivy.xml
+          </URI>
+        </resources>
+      </scm:Change>
+
+      <scm:Change>
+        <revision>-dev2
         </revision>
         
         <notes>

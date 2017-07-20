@@ -195,7 +195,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
             useOrigin="true" 
             overwriteMode="different"
             ivypattern="${ivy.ivy-retrieve-dir}/[organization]-[module]-[revision].ivy.xml"
-            type="jar"
+            type="jar,bundle"
           />
         </then>
       </if>
@@ -489,14 +489,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
             module="@{module}"
             revision="@{rev}"
             overwrite="true"
-            type="package"
-          />
-          <ivy:install from="@{resolver}" to="sandbox-distrib"
-            organisation="@{org}"
-            module="@{module}"
-            revision="@{rev}"
-            overwrite="true"
-            type="zip"
+            type="package,zip,bundle"
           />
         </then>
       </if>

@@ -22,6 +22,9 @@
           <scm:Note>Allow for control of repo updates to prevent repetitive
             server checks.
           </scm:Note>
+          <scm:Note>Accommodate "bundle" type as equivalent to "jar" when retrieving
+            artifacts.
+          </scm:Note>
         </notes>
         
         <resources>

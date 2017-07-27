@@ -126,7 +126,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
         </then>
       </if>
       <if>
-        <available file="${depends.dir}/.ivysnaphotcache"/>
+        <available file="${depends.dir}/.ivysnapshotcache"/>
         <then>
           <delete dir="${depends.dir}/.ivysnapshotcache"/>
         </then>
@@ -332,7 +332,8 @@ Unless otherwise agreed to in writing, this software is distributed on an
     
   <macrodef name="check-dependencies">
     <sequential>
-      <echo message="Checking compatibility with status ${ivy.status}"/>
+      <echo message="Checking dependencies and artificts - build status ${ivy.status}"/>
+      <property file="modules.properties"/>      
       <if>
         <available file="${ivy.ivy-retrieve-dir}"/>
         <then>
@@ -342,6 +343,17 @@ Unless otherwise agreed to in writing, this software is distributed on an
             </path>
             <sequential>
               <ivy:info file="@{ivy.dependency.path}" property="ivy.dependency"/>
+              <echo message="${ivy.dependency.organisation}#${ivy.dependency.module};${ivy.dependency.revision} ${ivy.dependency.status}"/>
+              <echo message="-- ${ivy.dependency.artifact.1.type}: ${ivy.dependency.artifact.1.name}.${ivy.dependency.artifact.1.ext} "/>
+              <if>
+                <isset property="${ivy.dependency.organisation}-${ivy.dependency.module}.addRevision"/>
+                <then>
+                  <echo message="adding revision number to artifact filename"/>
+                  <move file="${ivy.lib-retrieve-dir}/${ivy.dependency.artifact.1.name}.${ivy.dependency.artifact.1.ext}"
+                  tofile="${ivy.lib-retrieve-dir}/${ivy.dependency.artifact.1.name}-${ivy.dependency.revision}.${ivy.dependency.artifact.1.ext}"
+                  />  
+                </then>
+              </if>
               <if>
                 <and>
                   <not>
@@ -359,9 +371,6 @@ Unless otherwise agreed to in writing, this software is distributed on an
                 <then>
                   <fail message="Project with status=${ivy.status} cannot depend on ${ivy.dependency.organisation}-${ivy.dependency.module}-${ivy.dependency.revision} ${ivy.dependency.status}"/>
                 </then>
-                <else>
-                  <echo message="Checked ${ivy.dependency.organisation}-${ivy.dependency.module}-${ivy.dependency.revision} ${ivy.dependency.status}"/>
-                </else>
               </if>
             </sequential>
           </for>

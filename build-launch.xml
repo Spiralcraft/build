@@ -21,6 +21,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <property name="launch.dir" value="run"/>
   <property name="launch.antfile" value="LAUNCH.ant.xml"/>
   <property name="launch.target" value="launch"/>
+  <property name="swing.defaultlaf" value="javax.swing.plaf.nimbus.NimbusLookAndFeel"/>
     
   <target name="launch" description="Launch application">
     <ant dir="${launch.dir}" antfile="${launch.antfile}" target="${launch.target}"/>
@@ -77,7 +78,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
       <exec osfamily="windows" executable="cmd" dir="@{dir}">
         <arg 
           line='/K javaw @{vmargs} 
-                -Dswing.defaultlaf=com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel
+                -Dswing.defaultlaf=${swing.defaultlaf}
                 -jar "${common-build.dir}/lib/spiralcraft.jar"
                 @{launchArgs} --codebase @{codebase} @{env} @{exec}'
         />
@@ -85,7 +86,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
       <exec osfamily="mac" executable="java" dir="@{dir}">
         <arg 
           line='@{vmargs} 
-                -Dswing.defaultlaf=com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel
+                -Dswing.defaultlaf=${swing.defaultlaf}
                 -jar "${common-build.dir}/lib/spiralcraft.jar" 
                 @{launchArgs} --codebase @{codebase} @{env} @{exec}'
           />

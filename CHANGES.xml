@@ -19,6 +19,25 @@
         </revision>
         
         <notes>
+          <scm:Note>Remove com.sun reference for GUI look and feel
+          </scm:Note>
+          <scm:Note>Bundle new spiralcraft-launcher version for JDK9
+          </scm:Note>
+        </notes>
+        
+        <resources>
+          <URI>build-launch.xml
+          </URI>
+          <URI>ivy.xml
+          </URI>
+        </resources>
+      </scm:Change>
+
+      <scm:Change>
+        <revision>-dev2
+        </revision>
+        
+        <notes>
           <scm:Note>Allow for control of repo updates to prevent repetitive
             server checks.
           </scm:Note>

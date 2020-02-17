@@ -15,6 +15,23 @@
             
     <detail>
       <scm:Change>
+        <revision>-dev3
+        </revision>
+        
+        <notes>
+          <scm:Note>Maven requires uses HTTPS
+          </scm:Note>
+        </notes>
+        
+        <resources>
+          <URI>build-launch.xml
+          </URI>
+          <URI>ivy.common-settings.xml
+          </URI>
+        </resources>
+      </scm:Change>
+
+      <scm:Change>
         <revision>-dev2
         </revision>
         

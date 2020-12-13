@@ -3,9 +3,11 @@
   <repo-inst org="spiralcraft" module="gui" rev="[0.4.17-dev,0.4.18-dev["/>
   <repo-inst org="spiralcraft" module="ant" rev="[0.4.17-dev,0.4.18-dev["/>
 
-  <repo-inst org="apache" module="ant" rev="1.8.3"/>
-  <repo-inst org="apache" module="ant-jsch" rev="1.8.3"/>
-  <repo-inst org="apache" module="ivy" rev="[2.3.0,)"/>
+  <repo-inst org="org.apache.ant" module="ant-launcher" rev="1.10.9"/>
+  <repo-inst org="org.apache.ant" module="ant-jsch" rev="1.10.9"/>
+  <repo-inst org="junit" module="junit" rev="4.13"/>
+  <repo-inst org="org.hamcrest" module="hamcrest-library" rev="1.3"/>
+  <repo-inst org="org.apache.ivy" module="ivy" rev="[2.5.0,)"/>
   <repo-inst org="apache" module="ant-contrib" rev="1.0b3"/>
 
   <repo-inst org="launch4j" module="launch4j" rev="3.2u1"/>

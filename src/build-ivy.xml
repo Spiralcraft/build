@@ -446,6 +446,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
     <attribute name="module"/>
     <attribute name="rev"/>
     <attribute name="resolver" default="${ivy-resolver}"/>
+    <attribute name="conf" default="*"/>
     <sequential>
       <if>
         <or>
@@ -490,6 +491,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
             organisation="@{org}"
             module="@{module}"
             revision="@{rev}"
+            conf="@{conf}"
             overwrite="true"
             type="jar"
           />
@@ -497,6 +499,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
             organisation="@{org}"
             module="@{module}"
             revision="@{rev}"
+            conf="@{conf}"
             overwrite="true"
             type="package,zip,bundle"
           />

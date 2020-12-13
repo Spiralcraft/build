@@ -40,13 +40,25 @@ Unless otherwise agreed to in writing, this software is distributed on an
     <copy file="zip/launch4j-win32.zip" todir="tools"/>
   </target>
     
-  <fileset id="zip.out" dir=".">
+  
+  <target name="zip-stage">
+    <delete dir="zip-stage" failonerror="false"/>
+    <mkdir dir="zip-stage"/>
+    <copy todir="zip-stage">
+      <fileset dir="src"/>
+    </copy>
+    <copy file="SPIRALCRAFT-LICENSE.txt" todir="zip-stage"/>
+    <copy file="CHANGES.xml" todir="zip-stage"/>
+  </target>
+  
+  <fileset id="zip.out" dir="zip-stage">
     <include name="build-common.xml"/>
     <include name="build-app.xml"/>
     <include name="build-ivy.xml"/>
     <include name="build-launch.xml"/>
     <include name="build-native.xml"/>
     <include name="build-war.xml"/>
+    <include name="build-js.xml"/>
     <include name="ivy.settings.xml"/>
     <include name="ivy.common-settings.xml"/>
     <include name="test-functions.bsh"/>

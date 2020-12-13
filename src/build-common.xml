@@ -118,6 +118,9 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <!-- .war related targets -->
   <import file="build-native.xml"/>
     
+  <!-- .js related targets -->
+  <import file="build-js.xml"/>
+    
   <!--  Commonly used taskdefs
   -->  
 
@@ -218,14 +221,15 @@ Unless otherwise agreed to in writing, this software is distributed on an
   </macrodef>
   
 
+	<target name="zip-stage">
+  </target>
   
-	
-  <target name="zip" depends="retrieve,build-app.zip"
+  <target name="zip" depends="retrieve,zip-stage,build-app.zip"
     description="Build a distribution packaged in a .zip file"
     >
   </target>
     
-  <target name="pack" depends="build,build-app.pack"
+  <target name="pack" depends="build,build-js.build-js,build-app.pack"
     description="Build and pack a Spiralcraft package zip artifact"
   />
     

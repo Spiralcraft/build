@@ -1,0 +1,37 @@
+<project name="build-js">
+
+  <property name="node.home" location="c:/Program Files/nodejs"/>
+  <property name="npm.dir" location="${basedir}/npm"/>
+  
+  <target name="test.npm">
+    <available file="${npm.dir}/package.json" property="has.npm"/>
+  </target>
+  
+  <target name="test.rollup">
+    <available file="${npm.dir}/rollup.config.js" property="has.rollup"/>
+  </target>
+
+  <target name="npm-install" 
+    description="Update node.js modules" 
+    if="has.npm" 
+    depends="test.npm"
+    >
+    <echo>npm-install</echo>
+    <exec executable="${node.home}/node.exe" dir="npm">
+      <arg value="${node.home}/node_modules/npm/bin/npm-cli.js"/>
+      <arg value="install"/>
+  
+    </exec>
+  </target>
+
+  <target name="build-js" description="Rollup js bundles" if="has.rollup" depends="test.rollup">
+    <echo>build-js</echo>
+    <exec executable="c:/Program Files/nodejs/node.exe" dir="npm">
+      <arg value="node_modules/rollup/dist/bin/rollup"/>
+      <arg value="--config"/>
+      <arg value="rollup.config.js"/>
+  
+    </exec>
+  </target>
+    
+</project>

@@ -1,0 +1,5 @@
+#!/bin/bash
+source $(dirname $0)/common.sh
+pushd $(realpath $(dirname $0)/../test)
+"$JAVA" -jar ../lib/spiralcraft.jar --gui httpd
+popd

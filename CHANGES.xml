@@ -15,11 +15,34 @@
             
     <detail>
       <scm:Change>
+        <revision>-dev4
+        </revision>
+        
+        <notes>
+          <scm:Note>Reorganize source
+          </scm:Note>
+          <scm:Note>Update ant and ivy dependencies
+          </scm:Note>
+          <scm:Note>Add hook for zipfile staging
+          </scm:Note>
+          <scm:Note>Add shell scripts for build
+          </scm:Note>
+        </notes>
+        
+        <resources>
+          <URI>build-launch.xml
+          </URI>
+          <URI>ivy.common-settings.xml
+          </URI>
+        </resources>
+      </scm:Change>
+
+      <scm:Change>
         <revision>-dev3
         </revision>
         
         <notes>
-          <scm:Note>Maven requires uses HTTPS
+          <scm:Note>Maven requires HTTPS
           </scm:Note>
         </notes>
         

@@ -29,7 +29,8 @@ Unless otherwise agreed to in writing, this software is distributed on an
       <exclude name="spiralcraft-core-test"/>
     </dependency>
     <dependency org="spiralcraft"  name="shell" rev="[0.4.17-dev,)"/>
-    <dependency org="spiralcraft"  name="ant" rev="[0.4.17-dev,)"/>    
+    <dependency org="spiralcraft"  name="ant" rev="[0.4.17-dev,)"/>
+    <dependency org="org.apache.ant" name="ant" rev="[1.10.9,)" conf="default->master"/>
     <dependency org="org.apache.ant" name="ant-launcher" rev="[1.10.9,)" conf="default->master"/>
     <dependency org="apache" name="ant-contrib" rev="[1.0b3,)"/>
     <dependency org="org.apache.ivy" name="ivy" rev="[2.5.0,)" conf="default->master"/>

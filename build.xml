@@ -46,6 +46,12 @@ Unless otherwise agreed to in writing, this software is distributed on an
     <mkdir dir="zip-stage"/>
     <copy todir="zip-stage">
       <fileset dir="src"/>
+      <fileset dir=".">
+        <include name="lib/*.jar"/>
+        <include name="lib/ivy/*.xml"/>
+        <include name="resources/**"/>
+        <include name="tools/**"/>
+      </fileset>
     </copy>
     <copy file="SPIRALCRAFT-LICENSE.txt" todir="zip-stage"/>
     <copy file="CHANGES.xml" todir="zip-stage"/>
@@ -67,10 +73,10 @@ Unless otherwise agreed to in writing, this software is distributed on an
     <include name="CHANGES.xml"/>
     <include name="build-local.properties.example"/>
     <include name="dummy_keyfile"/>
+    <include name="manifest-template"/>
     <include name="lib/*.jar"/>
     <include name="lib/ivy/*.xml"/>
     <include name="resources/**"/>
-    <include name="manifest-template"/>
     <include name="tools/**"/>
   </fileset>      
     

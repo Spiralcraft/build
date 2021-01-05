@@ -19,6 +19,21 @@
         </revision>
         
         <notes>
+          <scm:Note>inst-repo target to initialize repo for first time
+          </scm:Note>
+        </notes>
+        
+        <resources>
+          <URI>src/build-ivy.xml
+          </URI>
+        </resources>
+      </scm:Change>
+
+      <scm:Change>
+        <revision>-dev4
+        </revision>
+        
+        <notes>
           <scm:Note>Reorganize source
           </scm:Note>
           <scm:Note>Update ant and ivy dependencies

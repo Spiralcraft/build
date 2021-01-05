@@ -441,6 +441,25 @@ Unless otherwise agreed to in writing, this software is distributed on an
       
   </target>    
     
+  <target name="init-repo">
+    <configure/>
+    <cleanAllCaches/>
+    <if>
+      <not>
+        <available file="${repo.dir}/modules.ant.xml"/>
+      </not>
+      <then>
+        <copy 
+          file="${common-build.dir}/resources/build/modules.ant.xml" 
+          todir="${repo.dir}"
+        />
+      </then>
+    </if>
+    
+    <ant antfile="${repo.dir}/modules.ant.xml" inheritall="true"/>
+      
+  </target>    
+
   <macrodef name="repo-inst">
     <attribute name="org"/>
     <attribute name="module"/>
@@ -474,19 +493,6 @@ Unless otherwise agreed to in writing, this software is distributed on an
         </or>
         <then>
           <echo message="Updating @{org}#@{module};@{rev}"/>
-          <!--
-          <ivy:resolve 
-            conf="*" 
-            refresh="true"
-            inline="true"
-            keep="true"
-            organisation="@{org}"
-            module="@{module}"
-            revision="@{rev}"
-            changing="true"
-            transitive="false"
-          />
-          -->
           <ivy:install from="@{resolver}" to="sandbox-jar"
             organisation="@{org}"
             module="@{module}"

@@ -15,6 +15,27 @@
             
     <detail>
       <scm:Change>
+        <revision>-dev5
+        </revision>
+        
+        <notes>
+          <scm:Note>incorporate node.js based build pipeline
+          </scm:Note>
+        </notes>
+        
+        <resources>
+          <URI>src/build-common.xml
+          </URI>
+          <URI>src/build-ivy.xml
+          </URI>
+          <URI>src/build-js.xml
+          </URI>
+          <URI>src/build-war.xml
+          </URI>
+        </resources>
+      </scm:Change>
+
+      <scm:Change>
         <revision>-dev4
         </revision>
         

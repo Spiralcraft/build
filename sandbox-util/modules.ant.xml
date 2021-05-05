@@ -12,7 +12,8 @@
 
   <repo-inst org="launch4j" module="launch4j" rev="3.2u1"/>
   <repo-inst org="beanshell" module="bsh" rev="2.0b5"/>
-  <repo-inst org="jcraft" module="jsch" rev="0.1.50"/>
+  <repo-inst org="com.jcraft" module="jsch" rev="0.1.55"/>
+  <repo-inst org="com.jcraft" module="jzlib" rev="1.0.7"/>
   <repo-inst org="sourceforge" module="jarbundler" rev="2.3.0"/>
 
 </project>

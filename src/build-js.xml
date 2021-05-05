@@ -33,5 +33,9 @@
   
     </exec>
   </target>
+
+  <target name="extract-js" description="Extract all js libs to lib-js">
+    <echo>extract-js</echo>
+  </target>
     
 </project>

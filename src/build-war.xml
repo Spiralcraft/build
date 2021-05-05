@@ -70,9 +70,30 @@ Unless otherwise agreed to in writing, this software is distributed on an
 
   </target>
   
+  <target name="war-npm-libs-conditions">
+    <condition property="war.npm-libs.copy" value="true">
+      <isreference refid="war.npm-libs"/>
+    </condition>
+  </target>
     
-  <target name="war-prepare" depends="war-libs"/>
-    
+  <target name="war-npm-libs" if="war.npm-libs.copy" depends="war-npm-libs-conditions">
+    <echo message= "war: Copying npm js libs"/>  
+   
+    <property name="war.dir" location="war"/>
+      
+    <copy todir="${war.dir}/js/npm"
+      overwrite="true"
+      preservelastmodified="true"
+      >
+      <fileset refid="war.npm-libs"/>
+    </copy>  
+  
+  </target>  
+      
+  <target name="war-prepare" depends="war-libs,war-npm-libs"/>
+
+
+  
   <target name="war" depends="war-prepare" if="war.output.path">
     <echo message= "war: ${build.name}"/>
 

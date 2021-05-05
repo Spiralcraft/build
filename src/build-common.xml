@@ -201,7 +201,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
   <target 
     name="build" 
     description="Generate and test runnable artifacts locally" 
-    depends="retrieve,clean,compile,jar,war,compile-test,jar-test,smoke" 
+    depends="retrieve,clean,compile,build-js,jar,war,compile-test,jar-test,smoke" 
   />
   
 
@@ -304,7 +304,10 @@ Unless otherwise agreed to in writing, this software is distributed on an
       />
     </delete>
   </target>
-      
+
+  <target name="retrieve" depends="build-ivy.retrieve,npm-install">
+  </target>
+        
   <target name="compile" if="isSource">
     <echo message= "build: ${build.name}"/>
     <javac 

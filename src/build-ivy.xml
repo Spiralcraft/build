@@ -277,7 +277,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
     <echo>Scanning package .zip files for deliverable content</echo>
     <for param="file">
       <path>
-        <fileset dir="packages" includes="*.zip"/>
+        <fileset dir="packages" includes="*.zip" erroronmissingdir="false"/>
       </path>
       <sequential>
         <unzip src="@{file}" dest="lib-js">

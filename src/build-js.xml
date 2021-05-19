@@ -20,12 +20,12 @@
     depends="test.npm"
     >
     <echo>npm-install</echo>
-    <exec osfamily="windows" executable="${node.windows}" dir="npm">
+    <exec osfamily="windows" executable="${node.windows}" dir="npm" failonerror="true">
       <arg value="${node-modules.home.windows}/npm/bin/npm-cli.js"/>
       <arg value="install"/>
   
     </exec>
-    <exec osfamily="unix" executable="${node.linux}" dir="npm">
+    <exec osfamily="unix" executable="${node.linux}" dir="npm" failonerror="true">
       <arg value="${node-modules.home.linux}/npm/bin/npm-cli.js"/>
       <arg value="install"/>
   
@@ -34,13 +34,13 @@
 
   <target name="build-js" description="Rollup js bundles" if="has.rollup" depends="test.rollup">
     <echo>build-js</echo>
-    <exec osfamily="windows" executable="${node.windows}" dir="npm">
+    <exec osfamily="windows" executable="${node.windows}" dir="npm" failonerror="true">
       <arg value="node_modules/rollup/dist/bin/rollup"/>
       <arg value="--config"/>
       <arg value="rollup.config.js"/>
   
     </exec>
-    <exec osfamily="unix" executable="${node.linux}" dir="npm">
+    <exec osfamily="unix" executable="${node.linux}" dir="npm" failonerror="true">
       <arg value="node_modules/rollup/dist/bin/rollup"/>
       <arg value="--config"/>
       <arg value="rollup.config.js"/>

@@ -275,6 +275,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
     
   <target name="post-retrieve">
     <echo>Scanning package .zip files for deliverable content</echo>
+    <delete dir="lib-js"/>
     <for param="file">
       <path>
         <fileset dir="packages" includes="*.zip" erroronmissingdir="false"/>

@@ -287,6 +287,12 @@ Unless otherwise agreed to in writing, this software is distributed on an
           </patternset> 
           <cutdirsmapper dirs="1"/>
         </unzip>
+        <unzip src="@{file}" dest="lib">
+          <patternset>
+            <include name="lib/**"/>
+          </patternset> 
+          <cutdirsmapper dirs="1"/>
+        </unzip>
       </sequential>
     </for>
   </target>

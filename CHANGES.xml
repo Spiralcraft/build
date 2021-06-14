@@ -19,6 +19,21 @@
         </revision>
         
         <notes>
+          <scm:Note>Provide for shipping lib .jar files in packages
+          </scm:Note>
+        </notes>
+        
+        <resources>
+          <URI>src/build-ivy.xml
+          </URI>
+        </resources>
+      </scm:Change>
+
+      <scm:Change>
+        <revision>-dev5
+        </revision>
+        
+        <notes>
           <scm:Note>incorporate node.js based build pipeline
           </scm:Note>
         </notes>

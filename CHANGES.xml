@@ -15,6 +15,38 @@
             
     <detail>
       <scm:Change>
+        <revision>-dev6
+        </revision>
+        
+        <notes>
+          <scm:Note>Fix issue where js build executed twice, from both build and pack
+            targets. Pack depends on build so left build-js dep on build target only.
+          </scm:Note>
+        </notes>
+        
+        <resources>
+          <URI>src/build-common.xml
+          </URI>
+        </resources>
+      </scm:Change>
+
+      <scm:Change>
+        <revision>-dev6
+        </revision>
+        
+        <notes>
+          <scm:Note>Dest for copying files to war can be changed via property, useful
+             for when the war is being created for re-bundling.
+          </scm:Note>
+        </notes>
+        
+        <resources>
+          <URI>src/build-war.xml
+          </URI>
+        </resources>
+      </scm:Change>
+
+      <scm:Change>
         <revision>-dev5
         </revision>
         

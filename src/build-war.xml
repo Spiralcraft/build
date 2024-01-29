@@ -80,8 +80,8 @@ Unless otherwise agreed to in writing, this software is distributed on an
     <echo message= "war: Copying npm js libs"/>  
    
     <property name="war.dir" location="war"/>
-      
-    <copy todir="${war.dir}/js/npm"
+    <property name="war.npm-target" location="${war.dir}/js/npm"/>  
+    <copy todir="${war.npm-target}"
       overwrite="true"
       preservelastmodified="true"
       >

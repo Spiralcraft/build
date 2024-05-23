@@ -34,6 +34,21 @@
 
   <target name="build-js" description="Rollup js bundles" if="has.rollup" depends="test.rollup">
     <echo>build-js</echo>
+    <echo>build-js:pre-build</echo>
+    <exec osfamily="windows" executable="${node.windows}" dir="npm" failonerror="true">
+      <arg value="${node-modules.home.windows}/npm/bin/npm-cli.js"/>
+      <arg value="run"/>
+      <arg value="pre-build"/>
+      <arg value="--if-present=true"/>
+    </exec>
+    <exec osfamily="unix" executable="${node.linux}" dir="npm" failonerror="true">
+      <arg value="${node-modules.home.linux}/npm/bin/npm-cli.js"/>
+      <arg value="run"/>
+      <arg value="pre-build"/>
+      <arg value="--if-present=true"/>
+    </exec>
+
+    <echo>build-js:rollup</echo>
     <exec osfamily="windows" executable="${node.windows}" dir="npm" failonerror="true">
       <arg value="node_modules/rollup/dist/bin/rollup"/>
       <arg value="--config"/>
@@ -46,6 +61,21 @@
       <arg value="rollup.config.js"/>
   
     </exec>
+
+    <echo>build-js:post-build</echo>
+    <exec osfamily="windows" executable="${node.windows}" dir="npm" failonerror="true">
+      <arg value="${node-modules.home.windows}/npm/bin/npm-cli.js"/>
+      <arg value="run"/>
+      <arg value="post-build"/>
+      <arg value="--if-present=true"/>
+    </exec>
+    <exec osfamily="unix" executable="${node.linux}" dir="npm" failonerror="true">
+      <arg value="${node-modules.home.linux}/npm/bin/npm-cli.js"/>
+      <arg value="run"/>
+      <arg value="post-build"/>
+      <arg value="--if-present=true"/>
+    </exec>
+
   </target>
 
   <target name="extract-js" description="Extract all js libs to lib-js">

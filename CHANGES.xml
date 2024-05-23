@@ -19,6 +19,21 @@
         </revision>
         
         <notes>
+          <scm:Note>Run pre-build and post-build npm scripts if present
+          </scm:Note>
+        </notes>
+        
+        <resources>
+          <URI>src/build-js.xml
+          </URI>
+        </resources>
+      </scm:Change>
+
+      <scm:Change>
+        <revision>-dev6
+        </revision>
+        
+        <notes>
           <scm:Note>Fix issue where js build executed twice, from both build and pack
             targets. Pack depends on build so left build-js dep on build target only.
           </scm:Note>

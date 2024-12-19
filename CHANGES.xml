@@ -19,6 +19,22 @@
         </revision>
         
         <notes>
+          <scm:Note>Use node hooks to fix NodeJS 22 problems resolving scripts 
+                    outside of main package.
+          </scm:Note>
+        </notes>
+        
+        <resources>
+          <URI>src/build-js.xml
+          </URI>
+        </resources>
+      </scm:Change>
+
+      <scm:Change>
+        <revision>-dev6
+        </revision>
+        
+        <notes>
           <scm:Note>Run pre-build and post-build npm scripts if present
           </scm:Note>
         </notes>

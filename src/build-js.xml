@@ -6,6 +6,7 @@
   <property name="node-modules.home.linux" location="/usr/lib/node_modules"/>
   <property name="npm.dir" location="${basedir}/npm"/>
   <property name="localNodePackages" value=""/>
+  <property name="js-lint-tool" value="node_modules/@spiralcraft/svelte-ui-mk1/tools/sc-ui-lint.js"/>
   
   <target name="test.npm">
     <available file="${npm.dir}/package.json" property="has.npm"/>
@@ -57,7 +58,32 @@
     
   </target>
 
-  <target name="build-js" description="Js bundles" if="has.bundler" depends="test.bundler">
+  <!-- JS lint: runs only when js-lint-conf is set (e.g. in the root build.xml or a
+       properties file) to the path of a lint config. The tool defaults to sc-ui-lint from
+       the installed model; a project can point js-lint-tool at another script that takes
+       the same config argument. -->
+
+
+  <target name="lint-js" description="Check JS imports (when js-lint-conf is set)"
+          if="js-lint-conf" depends="test.npm">
+    <!-- a configured but missing file is an error, not a silent skip -->
+    <fail message="js-lint-conf is set to ${js-lint-conf}, but that file doesn't exist">
+      <condition><not><available file="${js-lint-conf}"/></not></condition>
+    </fail>
+    <echo>lint-js: ${js-lint-conf}</echo>
+    <exec osfamily="windows" executable="${node.windows}" dir="${npm.dir}" failonerror="true">
+      <arg value="${js-lint-tool}"/>
+      <arg value="--config"/>
+      <arg file="${js-lint-conf}"/>
+    </exec>
+    <exec osfamily="unix" executable="${node.linux}" dir="${npm.dir}" failonerror="true">
+      <arg value="${js-lint-tool}"/>
+      <arg value="--config"/>
+      <arg file="${js-lint-conf}"/>
+    </exec>
+  </target>  
+  
+  <target name="build-js" description="Js bundles" if="has.bundler" depends="test.bundler,lint-js">
     <echo>build-js</echo>
     <echo>build-js:pre-build</echo>
     <exec osfamily="windows" executable="${node.windows}" dir="npm" failonerror="true">

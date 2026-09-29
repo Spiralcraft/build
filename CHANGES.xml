@@ -19,6 +19,21 @@
         </revision>
         
         <notes>
+          <scm:Note>Added support for a js linter step
+          </scm:Note>
+        </notes>
+        
+        <resources>
+          <URI>src/build-js.xml
+          </URI>
+        </resources>
+      </scm:Change>
+
+      <scm:Change>
+        <revision>-dev7
+        </revision>
+        
+        <notes>
           <scm:Note>Information when processing repo-control.txt
           </scm:Note>
         </notes>

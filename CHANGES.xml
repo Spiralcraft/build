@@ -15,6 +15,36 @@
             
     <detail>
       <scm:Change>
+        <revision>-dev7
+        </revision>
+        
+        <notes>
+          <scm:Note>Information when processing repo-control.txt
+          </scm:Note>
+        </notes>
+        
+        <resources>
+          <URI>src/build-ivy.xml
+          </URI>
+        </resources>
+      </scm:Change>
+
+      <scm:Change>
+        <revision>-dev7
+        </revision>
+        
+        <notes>
+          <scm:Note>Vite integration, installation from local packages
+          </scm:Note>
+        </notes>
+        
+        <resources>
+          <URI>src/build-js.xml
+          </URI>
+        </resources>
+      </scm:Change>
+
+      <scm:Change>
         <revision>-dev6
         </revision>
         

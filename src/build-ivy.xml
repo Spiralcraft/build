@@ -40,7 +40,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
     </or>
       
   </condition>
-  	
+   
   <condition
     property="ivySettings"
     value="${basedir}/ivy.settings.xml"
@@ -77,7 +77,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
       <equals arg1="${ivy-resolver}" arg2="default"/>
     </or>
   </condition>
-  	
+    
   <property name="ivySettings" value="${common-build.dir}/ivy.settings.xml"/>
   <property name="release-keyfile" location="${common-build.dir}/dummy_keyfile"/>  
   <property name="stable-keyfile" location="${common-build.dir}/dummy_keyfile"/>  
@@ -163,7 +163,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
     <configure/>
     <resolve/>
   </target>
-	
+  
     
   <macrodef name="resolve">
     <sequential>
@@ -349,7 +349,7 @@ Unless otherwise agreed to in writing, this software is distributed on an
         </else>
       </if>
     </sequential>
-  	
+    
   </macrodef>
     
   <macrodef name="check-dependencies">
@@ -490,6 +490,16 @@ Unless otherwise agreed to in writing, this software is distributed on an
     <attribute name="conf" default="*"/>
     <sequential>
       <if>
+        <not>
+          <resourceexists>
+            <file file="${basedir}/repo-control.txt"/>
+          </resourceexists>
+        </not>
+        <then>
+          <echo message="No ${basedir}/repo-control.txt"/>
+        </then>
+      </if>
+      <if>
         <or>
           <not>
             <resourceexists>
@@ -532,6 +542,9 @@ Unless otherwise agreed to in writing, this software is distributed on an
             type="package,zip,bundle"
           />
         </then>
+        <else>
+          <echo message="skipping [@{org}-@{module}]"></echo>
+        </else>
       </if>
     </sequential>
   </macrodef>

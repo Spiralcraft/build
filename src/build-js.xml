@@ -1,10 +1,11 @@
-<project name="build-js">
+<project name="build-js" xmlns:if="ant:if">
 
   <property name="node.windows" location="c:/Program Files/nodejs/node.exe"/>
   <property name="node-modules.home.windows" location="c:/Program Files/nodejs/node_modules"/>
   <property name="node.linux" location="/usr/bin/node"/>
   <property name="node-modules.home.linux" location="/usr/lib/node_modules"/>
   <property name="npm.dir" location="${basedir}/npm"/>
+  <property name="localNodePackages" value=""/>
   
   <target name="test.npm">
     <available file="${npm.dir}/package.json" property="has.npm"/>
@@ -14,25 +15,49 @@
     <available file="${npm.dir}/rollup.config.js" property="has.rollup"/>
   </target>
 
+  <target name="test.vite">
+    <available file="${npm.dir}/vite.config.js" property="has.vite"/>
+  </target>
+
+  <target name="test.bundler" depends="test.rollup,test.vite">
+    <condition property="has.bundler">
+      <or>
+        <isset property="has.rollup"/>
+        <isset property="has.vite"/>
+      </or>
+    </condition>
+  </target>
+  
+  <macrodef name="npm">
+    <element name="args" implicit="true"/>
+    <sequential>
+      <exec osfamily="windows" executable="${node.windows}" dir="${npm.dir}" failonerror="true">
+        <arg value="${node-modules.home.windows}/npm/bin/npm-cli.js"/>
+        <args/>
+      </exec>
+      <exec osfamily="unix" executable="${node.linux}" dir="${npm.dir}" failonerror="true">
+        <arg value="${node-modules.home.linux}/npm/bin/npm-cli.js"/>
+        <args/>
+      </exec>
+    </sequential>
+  </macrodef>
+  
   <target name="npm-install" 
     description="Update node.js modules" 
     if="has.npm" 
     depends="test.npm"
     >
-    <echo>npm-install</echo>
-    <exec osfamily="windows" executable="${node.windows}" dir="npm" failonerror="true">
-      <arg value="${node-modules.home.windows}/npm/bin/npm-cli.js"/>
+    <echo>npm-install ${localNodePackages}</echo>
+    <delete dir="${npm.dir}/node_modules/@spiralcraft" quiet="true"/>
+    <npm>
       <arg value="install"/>
-  
-    </exec>
-    <exec osfamily="unix" executable="${node.linux}" dir="npm" failonerror="true">
-      <arg value="${node-modules.home.linux}/npm/bin/npm-cli.js"/>
-      <arg value="install"/>
-  
-    </exec>
+      <arg value="--install-links"/>
+      <arg line="${localNodePackages}"/>      
+    </npm>
+    
   </target>
 
-  <target name="build-js" description="Rollup js bundles" if="has.rollup" depends="test.rollup">
+  <target name="build-js" description="Js bundles" if="has.bundler" depends="test.bundler">
     <echo>build-js</echo>
     <echo>build-js:pre-build</echo>
     <exec osfamily="windows" executable="${node.windows}" dir="npm" failonerror="true">
@@ -49,7 +74,7 @@
     </exec>
 
     <echo>build-js:rollup</echo>
-    <exec osfamily="windows" executable="${node.windows}" dir="npm" failonerror="true">
+    <exec osfamily="windows" executable="${node.windows}" dir="npm" failonerror="true" if:set="has.rollup">
       <arg value="--import"/>
       <arg value="./node-hooks.mjs"/>
       <arg value="node_modules/rollup/dist/bin/rollup"/>
@@ -57,7 +82,7 @@
       <arg value="rollup.config.js"/>
   
     </exec>
-    <exec osfamily="unix" executable="${node.linux}" dir="npm" failonerror="true">
+    <exec osfamily="unix" executable="${node.linux}" dir="npm" failonerror="true" if:set="has.rollup">
       <arg value="--import"/>
       <arg value="./node-hooks.mjs"/>
       <arg value="node_modules/rollup/dist/bin/rollup"/>
@@ -66,6 +91,21 @@
   
     </exec>
 
+    <echo>build-js:vite</echo>
+    <exec osfamily="windows" executable="${node.windows}" dir="npm" failonerror="true" if:set="has.vite">
+      <arg value="node_modules/vite/bin/vite.js"/>
+      <arg value="build"/>
+      <arg value="--config"/>
+      <arg value="vite.config.js"/>  
+    </exec>
+    <exec osfamily="unix" executable="${node.linux}" dir="npm" failonerror="true" if:set="has.vite">
+      <arg value="node_modules/vite/bin/vite.js"/>
+      <arg value="build"/>
+      <arg value="--config"/>
+      <arg value="vite.config.js"/>  
+    </exec>
+
+    
     <echo>build-js:post-build</echo>
     <exec osfamily="windows" executable="${node.windows}" dir="npm" failonerror="true">
       <arg value="${node-modules.home.windows}/npm/bin/npm-cli.js"/>
